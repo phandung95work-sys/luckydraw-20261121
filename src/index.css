@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-sans: 'Be Vietnam Pro', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  html,
+  body {
+    font-family: var(--font-sans);
+    background-color: #030917;
+    color: #f8fafc;
+    overflow-x: hidden;
+  }
+}
+
+.font-display-gold {
+  font-family: var(--font-display);
+  background: linear-gradient(
+    180deg,
+    #fff9dc 0%,
+    #f9dc7a 28%,
+    #e0a938 56%,
+    #b67b18 78%,
+    #f5d576 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 16px rgba(240, 185, 65, 0.35))
+    drop-shadow(0 2px 2px rgba(0, 0, 0, 0.8));
+}
+
+.font-subtitle-gold {
+  font-family: var(--font-sans);
+  background: linear-gradient(180deg, #fffbe8 0%, #f5d57a 52%, #cf952c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(234, 179, 8, 0.25));
+}
+
+.agribank-ribbon {
+  position: relative;
+  background: linear-gradient(90deg, #751023 0%, #a51b35 18%, #b31f3b 50%, #a51b35 82%, #751023 100%);
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 220, 150, 0.35),
+    inset 0 -1px 0 rgba(255, 220, 150, 0.25);
+}
+
+.agribank-ribbon::before,
+.agribank-ribbon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  background: inherit;
+}
+
+.agribank-ribbon::before {
+  left: -14px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
+}
+
+.agribank-ribbon::after {
+  right: -14px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 50%, 100% 100%, 0 100%);
+}
+
+.gold-card {
+  background: linear-gradient(160deg, rgba(12, 29, 66, 0.88) 0%, rgba(5, 14, 34, 0.94) 100%);
+  border: 1px solid rgba(244, 200, 88, 0.38);
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.65),
+    0 0 38px rgba(235, 180, 62, 0.12),
+    inset 0 1px 0 rgba(255, 236, 173, 0.22);
+  backdrop-filter: blur(14px);
+}
+
+.gold-card-winner {
+  background: linear-gradient(155deg, rgba(24, 48, 96, 0.94) 0%, rgba(10, 22, 50, 0.96) 60%, rgba(52, 20, 32, 0.92) 100%);
+  border: 1.5px solid rgba(250, 212, 107, 0.82);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.72),
+    0 0 48px rgba(245, 194, 72, 0.32),
+    inset 0 1px 1px rgba(255, 244, 202, 0.45);
+}
+
+.gold-button {
+  background: linear-gradient(180deg, #fce28b 0%, #e5ae3c 55%, #bf831b 100%);
+  color: #1c1002;
+  border: 1px solid rgba(255, 243, 198, 0.75);
+  box-shadow:
+    0 10px 28px rgba(229, 174, 60, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.gold-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 14px 36px rgba(235, 184, 72, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.gold-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(240%) skewX(-18deg);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmerSweep 3.8s ease-in-out infinite;
+}
+
+@keyframes winnerPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.84) translateY(18px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-winner-pop {
+  animation: winnerPop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pulseAura {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-aura {
+  animation: pulseAura 2.4s ease-in-out infinite;
+}
+
+/* Custom sleek scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(6, 16, 38, 0.65);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(230, 180, 72, 0.35);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(230, 180, 72, 0.6);
+}
