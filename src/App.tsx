@@ -5,6 +5,7 @@ import {
   Maximize2,
   Minimize2,
   Music,
+  RotateCcw,
   Settings,
   Trophy,
   Volume2,
@@ -53,6 +54,7 @@ export function App() {
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [hideControls, setHideControls] = useState(false);
+  const [stageKey, setStageKey] = useState(0);
 
   // Persist to localStorage
   useEffect(() => {
@@ -129,6 +131,19 @@ export function App() {
       winners: prev.winners.filter((w) => w.id !== winnerId),
     }));
   }, []);
+
+  const handleResetWinners = useCallback(() => {
+    if (isSpinning) return;
+    if (
+      !window.confirm(
+        'Xóa toàn bộ kết quả đã quay để bắt đầu chương trình mới?\n(Danh sách người chơi và giải thưởng được giữ nguyên)'
+      )
+    ) {
+      return;
+    }
+    setState((prev) => ({ ...prev, winners: [] }));
+    setStageKey((k) => k + 1);
+  }, [isSpinning]);
 
   const toggleSound = () => {
     ceremonyAudio.unlock();
@@ -211,6 +226,17 @@ export function App() {
 
           <button
             type="button"
+            disabled={isSpinning || state.winners.length === 0}
+            onClick={handleResetWinners}
+            title="Reset toàn bộ kết quả đã quay"
+            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-rose-200 hover:bg-rose-500/15 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Reset</span>
+          </button>
+
+          <button
+            type="button"
             onClick={toggleFullscreen}
             title={isFullscreen ? 'Thoát toàn màn hình' : 'Trình chiếu toàn màn hình'}
             className="rounded-full p-1.5 text-slate-300 hover:bg-slate-800/80 hover:text-white transition cursor-pointer"
@@ -240,6 +266,7 @@ export function App() {
 
       {/* Main Lucky Draw Stage */}
       <DrawStage
+        key={stageKey}
         participants={state.participants}
         prizes={state.prizes}
         winners={state.winners}
@@ -277,6 +304,7 @@ export function App() {
         prizes={state.prizes}
         winners={state.winners}
         onRemoveWinner={handleRemoveWinner}
+        onResetWinners={handleResetWinners}
       />
 
       <AdminModal
@@ -284,8 +312,11 @@ export function App() {
         onClose={() => setShowAdminModal(false)}
         state={state}
         onUpdateState={setState}
-        onResetWinners={() => setState((prev) => ({ ...prev, winners: [] }))}
-        onResetAll={() => setState(DEFAULT_APP_STATE)}
+        onResetWinners={handleResetWinners}
+        onResetAll={() => {
+          setState(DEFAULT_APP_STATE);
+          setStageKey((k) => k + 1);
+        }}
       />
     </div>
   );

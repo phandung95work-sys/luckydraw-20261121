@@ -1220,14 +1220,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
-                    onClick={() => {
-                      if (window.confirm('Xóa toàn bộ kết quả đã quay để bắt đầu chương trình mới? (Danh sách người chơi và giải thưởng được giữ nguyên)')) {
-                        onResetWinners();
-                      }
-                    }}
+                    onClick={onResetWinners}
                     className="rounded-lg border border-amber-500/40 bg-amber-950/50 px-3 py-2 text-xs font-semibold text-amber-200 hover:bg-amber-900/60 cursor-pointer"
                   >
-                    Xóa kết quả đã quay
+                    Reset kết quả đã quay
                   </button>
                   <button
                     type="button"

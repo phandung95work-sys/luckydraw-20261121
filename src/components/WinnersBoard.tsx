@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Download, Printer, Trash2, Trophy, X } from 'lucide-react';
+import { Award, Download, Printer, RotateCcw, Trash2, Trophy, X } from 'lucide-react';
 import { Prize, WinnerRecord } from '../types';
 
 interface WinnersBoardProps {
@@ -8,6 +8,7 @@ interface WinnersBoardProps {
   prizes: Prize[];
   winners: WinnerRecord[];
   onRemoveWinner: (winnerId: string) => void;
+  onResetWinners: () => void;
 }
 
 export const WinnersBoard: React.FC<WinnersBoardProps> = ({
@@ -16,6 +17,7 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
   prizes,
   winners,
   onRemoveWinner,
+  onResetWinners,
 }) => {
   if (!open) return null;
 
@@ -87,6 +89,14 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
                 >
                   <Printer className="h-3.5 w-3.5" />
                   <span>In danh sách</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={onResetWinners}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-rose-400/40 bg-rose-950/50 px-3 py-1.5 text-xs font-semibold text-rose-200 hover:bg-rose-900/60 cursor-pointer"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" />
+                  <span>Reset kết quả</span>
                 </button>
               </>
             )}
