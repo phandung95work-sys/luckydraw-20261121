@@ -21,14 +21,14 @@ export const BrandHeader: React.FC<BrandHeaderProps> = ({ compact = false }) => 
         <div className="flex items-center gap-2">
           <AgribankLogoMark className="h-6 w-6 sm:h-7 sm:w-7 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]" />
           <span
-            className="text-base sm:text-xl font-bold tracking-[0.14em] text-white"
-            style={{ fontFamily: 'var(--font-display)' }}
+            className="text-xl sm:text-[26px] font-normal tracking-[0.04em] leading-none text-white"
+            style={{ fontFamily: "'Times New Roman', 'Tinos', Times, serif" }}
           >
             AGRIBANK
           </span>
         </div>
-        <div className="mt-0.5 border-b border-[#a81832]/85 pb-0.5 px-3">
-          <p className="text-[9px] sm:text-[11px] font-semibold tracking-[0.2em] text-slate-100/95 uppercase">
+        <div className="mt-1 border-b border-[#a81832]/85 pb-0.5 px-2">
+          <p className="text-[9px] sm:text-[11px] font-semibold tracking-[0.14em] text-slate-100/95 uppercase">
             TRUNG TÂM CÔNG NGHỆ THÔNG TIN
           </p>
         </div>
