@@ -35,7 +35,7 @@ interface ReelSlotDisplay {
   locked: boolean;
 }
 
-const ITEM_HEIGHT = 118; // px for single grand reel row
+const ITEM_HEIGHT = 96; // px for single grand reel row
 
 /**
  * Smooth ceremonial 3-phase progress curve:
@@ -381,9 +381,9 @@ export const DrawStage: React.FC<DrawStageProps> = ({
           : 'Chúc mừng chủ nhân giải thưởng!';
 
   return (
-    <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-4 pb-10 pt-2">
+    <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 pb-4 pt-1">
       {/* Prize Selector Pills */}
-      <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
+      <div className="mb-3 flex flex-wrap items-center justify-center gap-1.5">
         {sortedPrizes.map((prize) => {
           const wonCount = winners.filter((w) => w.prizeId === prize.id).length;
           const rem = Math.max(0, prize.quantity - wonCount);
@@ -394,16 +394,16 @@ export const DrawStage: React.FC<DrawStageProps> = ({
               type="button"
               disabled={isSpinning}
               onClick={() => handleSelectPrize(prize.id)}
-              className={`group relative flex items-center gap-2 rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-200 border ${
+              className={`group relative flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all duration-200 border ${
                 isSelected
                   ? 'border-amber-300 bg-gradient-to-r from-amber-500/30 via-amber-400/20 to-amber-500/30 text-amber-100 shadow-[0_0_20px_rgba(245,194,72,0.35)]'
                   : 'border-amber-200/20 bg-slate-950/60 text-slate-300 hover:border-amber-300/50 hover:text-amber-100'
               } ${isSpinning ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
             >
               {prize.order === sortedPrizes[sortedPrizes.length - 1]?.order ? (
-                <Crown className="h-3.5 w-3.5 text-amber-300" />
+                <Crown className="h-3 w-3 text-amber-300" />
               ) : (
-                <Award className="h-3.5 w-3.5 text-amber-300/80" />
+                <Award className="h-3 w-3 text-amber-300/80" />
               )}
               <span>{prize.name}</span>
               <span
@@ -421,17 +421,17 @@ export const DrawStage: React.FC<DrawStageProps> = ({
       </div>
 
       {/* Main Stage Frame */}
-      <div className="gold-card relative w-full overflow-hidden rounded-3xl p-5 sm:p-8">
+      <div className="gold-card relative w-full overflow-hidden rounded-2xl p-4 sm:p-6">
         {/* Subtle decorative corner flourishes */}
-        <div className="pointer-events-none absolute left-0 top-0 h-20 w-20 border-l-2 border-t-2 border-amber-300/40 rounded-tl-3xl" />
-        <div className="pointer-events-none absolute right-0 top-0 h-20 w-20 border-r-2 border-t-2 border-amber-300/40 rounded-tr-3xl" />
-        <div className="pointer-events-none absolute bottom-0 left-0 h-20 w-20 border-b-2 border-l-2 border-amber-300/40 rounded-bl-3xl" />
-        <div className="pointer-events-none absolute bottom-0 right-0 h-20 w-20 border-b-2 border-r-2 border-amber-300/40 rounded-br-3xl" />
+        <div className="pointer-events-none absolute left-0 top-0 h-14 w-14 border-l-2 border-t-2 border-amber-300/40 rounded-tl-2xl" />
+        <div className="pointer-events-none absolute right-0 top-0 h-14 w-14 border-r-2 border-t-2 border-amber-300/40 rounded-tr-2xl" />
+        <div className="pointer-events-none absolute bottom-0 left-0 h-14 w-14 border-b-2 border-l-2 border-amber-300/40 rounded-bl-2xl" />
+        <div className="pointer-events-none absolute bottom-0 right-0 h-14 w-14 border-b-2 border-r-2 border-amber-300/40 rounded-br-2xl" />
 
         {/* Prize Showcase Header */}
         <div className="flex flex-col items-center text-center">
-          <div className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 rounded-full border border-amber-300/35 bg-amber-400/10 px-4 py-1 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.1em] sm:tracking-[0.18em] text-amber-200">
-            <Gift className="h-3.5 w-3.5 text-amber-300" />
+          <div className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 rounded-full border border-amber-300/35 bg-amber-400/10 px-3.5 py-0.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.1em] sm:tracking-[0.16em] text-amber-200">
+            <Gift className="h-3 w-3 text-amber-300" />
             <span>{activePrize.name}</span>
             <span className="text-amber-300/60">•</span>
             <span>
@@ -441,45 +441,45 @@ export const DrawStage: React.FC<DrawStageProps> = ({
             </span>
           </div>
 
-          <h3 className="mt-2.5 text-xl sm:text-3xl font-bold text-white tracking-wide drop-shadow">
+          <h3 className="mt-2 text-lg sm:text-2xl font-bold text-white tracking-wide drop-shadow">
             {activePrize.giftName}
           </h3>
           {activePrize.giftValue && (
-            <p className="mt-1 text-xs sm:text-sm font-medium text-amber-300/90">
+            <p className="mt-0.5 text-xs font-medium text-amber-300/90">
               Giá trị giải thưởng: {activePrize.giftValue}
             </p>
           )}
         </div>
 
         {/* Center Lucky Draw Arena */}
-        <div className="mt-6">
+        <div className="mt-4">
           {/* STATE 1: WINNER REVEAL SPOTLIGHT */}
           {showRevealCard && lastRevealedBatch.length > 0 ? (
             <div className="animate-winner-pop">
-              <div className="mb-4 flex items-center justify-center gap-2 text-amber-300">
-                <Sparkles className="h-5 w-5 animate-pulse" />
-                <span className="text-sm sm:text-base font-bold uppercase tracking-[0.2em]">
+              <div className="mb-3 flex items-center justify-center gap-2 text-amber-300">
+                <Sparkles className="h-4 w-4 animate-pulse" />
+                <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.18em]">
                   CHÚC MỪNG NGƯỜI TRÚNG {activePrize.name}
                 </span>
-                <Sparkles className="h-5 w-5 animate-pulse" />
+                <Sparkles className="h-4 w-4 animate-pulse" />
               </div>
 
               {lastRevealedBatch.length === 1 ? (
-                <div className="gold-card-winner relative mx-auto max-w-2xl overflow-hidden rounded-2xl p-6 sm:p-9 text-center">
+                <div className="gold-card-winner relative mx-auto max-w-xl overflow-hidden rounded-2xl p-5 sm:p-7 text-center">
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-amber-200/15 to-transparent animate-shimmer" />
-                  <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/60 bg-amber-400/20 px-4 py-1 text-sm font-bold tracking-widest text-amber-100">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/60 bg-amber-400/20 px-3.5 py-0.5 text-xs sm:text-sm font-bold tracking-widest text-amber-100">
                     <span>MÃ SỐ: {lastRevealedBatch[0].participantCode}</span>
                   </div>
-                  <div className="font-display-gold mt-4 text-3xl sm:text-5xl font-extrabold tracking-wide leading-tight">
+                  <div className="font-display-gold mt-3 text-2xl sm:text-4xl font-extrabold tracking-wide leading-tight">
                     {lastRevealedBatch[0].participantName}
                   </div>
-                  <p className="mt-3 text-base sm:text-xl font-medium text-amber-100/90">
+                  <p className="mt-2 text-sm sm:text-lg font-medium text-amber-100/90">
                     {lastRevealedBatch[0].participantDepartment}
                   </p>
                 </div>
               ) : (
                 <div
-                  className={`grid gap-3 sm:gap-4 ${
+                  className={`grid gap-2.5 sm:gap-3 ${
                     lastRevealedBatch.length <= 4
                       ? 'grid-cols-1 sm:grid-cols-2'
                       : lastRevealedBatch.length <= 6
@@ -491,15 +491,15 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                     <div
                       key={w.id}
                       style={{ animationDelay: `${idx * 80}ms` }}
-                      className="gold-card-winner animate-winner-pop relative overflow-hidden rounded-xl p-4 text-center"
+                      className="gold-card-winner animate-winner-pop relative overflow-hidden rounded-xl p-3 text-center"
                     >
-                      <div className="inline-block rounded-full border border-amber-300/45 bg-amber-400/15 px-2.5 py-0.5 text-[11px] font-bold tracking-wider text-amber-200">
+                      <div className="inline-block rounded-full border border-amber-300/45 bg-amber-400/15 px-2 py-0.5 text-[10px] font-bold tracking-wider text-amber-200">
                         {w.participantCode}
                       </div>
-                      <div className="mt-2 text-lg sm:text-xl font-extrabold text-amber-100 leading-snug">
+                      <div className="mt-1.5 text-base sm:text-lg font-extrabold text-amber-100 leading-snug">
                         {w.participantName}
                       </div>
-                      <div className="mt-1 text-xs text-slate-300/90 line-clamp-2">
+                      <div className="mt-0.5 text-[11px] text-slate-300/90 line-clamp-2">
                         {w.participantDepartment}
                       </div>
                     </div>
@@ -512,7 +512,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
             <div>
               {reelSlots.length === 1 ? (
                 /* Grand Single Drum Reel */
-                <div className="relative mx-auto max-w-3xl">
+                <div className="relative mx-auto max-w-2xl">
                   {/* Outer glow halo */}
                   <div className="animate-pulse-aura pointer-events-none absolute -inset-2 rounded-3xl bg-gradient-to-r from-amber-500/20 via-rose-500/15 to-amber-500/20 blur-xl" />
 
@@ -521,8 +521,8 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                     style={{ height: `${ITEM_HEIGHT * 3}px` }}
                   >
                     {/* Top & bottom gradient fade masks */}
-                    <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-24 bg-gradient-to-b from-[#030917] via-[#030917]/80 to-transparent" />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-t from-[#030917] via-[#030917]/80 to-transparent" />
+                    <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-20 bg-gradient-to-b from-[#030917] via-[#030917]/80 to-transparent" />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-20 bg-gradient-to-t from-[#030917] via-[#030917]/80 to-transparent" />
 
                     {/* Center Target Highlight Frame */}
                     <div
@@ -551,13 +551,13 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                           className="flex flex-col items-center justify-center px-6 text-center"
                           style={{ height: `${ITEM_HEIGHT}px` }}
                         >
-                          <span className="rounded-full border border-amber-300/35 bg-amber-400/15 px-3 py-0.5 text-xs font-bold tracking-widest text-amber-200">
+                          <span className="rounded-full border border-amber-300/35 bg-amber-400/15 px-2.5 py-0.5 text-[11px] font-bold tracking-widest text-amber-200">
                             {item.code}
                           </span>
-                          <span className="mt-1.5 text-2xl sm:text-4xl font-extrabold tracking-wide text-white drop-shadow-[0_2px_10px_rgba(245,194,72,0.3)]">
+                          <span className="mt-1 text-xl sm:text-3xl font-extrabold tracking-wide text-white drop-shadow-[0_2px_10px_rgba(245,194,72,0.3)]">
                             {item.name}
                           </span>
-                          <span className="mt-0.5 text-xs sm:text-sm text-amber-100/75">
+                          <span className="mt-0.5 text-xs text-amber-100/75">
                             {item.department}
                           </span>
                         </div>
@@ -568,7 +568,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
               ) : (
                 /* Multi-Slot Cascading Matrix */
                 <div
-                  className={`grid gap-3 ${
+                  className={`grid gap-2.5 ${
                     reelSlots.length <= 4
                       ? 'grid-cols-1 sm:grid-cols-2'
                       : reelSlots.length <= 6
@@ -585,7 +585,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                     return (
                       <div
                         key={slot.slotIndex}
-                        className={`relative overflow-hidden rounded-xl border p-4 text-center transition-all duration-300 ${
+                        className={`relative overflow-hidden rounded-xl border p-3 text-center transition-all duration-300 ${
                           slot.locked
                             ? 'gold-card-winner scale-[1.01]'
                             : 'border-amber-300/35 bg-[#051028]/90'
@@ -595,10 +595,10 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                           <span>Giải #{sIdx + 1}</span>
                           <span>{currentItem.code}</span>
                         </div>
-                        <div className="mt-2 truncate text-base sm:text-lg font-extrabold text-white">
+                        <div className="mt-1.5 truncate text-sm sm:text-base font-extrabold text-white">
                           {currentItem.name}
                         </div>
-                        <div className="mt-1 truncate text-[11px] text-slate-300/80">
+                        <div className="mt-0.5 truncate text-[11px] text-slate-300/80">
                           {currentItem.department}
                         </div>
                       </div>
@@ -608,14 +608,14 @@ export const DrawStage: React.FC<DrawStageProps> = ({
               )}
 
               {/* 15s Progress Bar */}
-              <div className="mx-auto mt-5 max-w-2xl">
-                <div className="mb-1.5 flex items-center justify-between text-xs font-medium text-amber-200/90">
+              <div className="mx-auto mt-4 max-w-xl">
+                <div className="mb-1 flex items-center justify-between text-xs font-medium text-amber-200/90">
                   <span>{phaseLabel}</span>
                   <span className="font-mono font-bold text-amber-300">
                     {elapsedSec.toFixed(1)}s / {spinDurationSec.toFixed(1)}s
                   </span>
                 </div>
-                <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-900/90 p-0.5 border border-amber-300/25">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-slate-900/90 p-0.5 border border-amber-300/25">
                   <div
                     className="h-full rounded-full bg-gradient-to-r from-amber-500 via-yellow-300 to-amber-400 shadow-[0_0_14px_rgba(251,191,36,0.75)] transition-[width] duration-75"
                     style={{ width: `${progressPct}%` }}
@@ -625,16 +625,16 @@ export const DrawStage: React.FC<DrawStageProps> = ({
             </div>
           ) : (
             /* STATE 3: STANDBY / READY TO SPIN */
-            <div className="mx-auto max-w-3xl rounded-2xl border border-amber-300/25 bg-[#040d22]/75 px-6 py-10 text-center">
+            <div className="mx-auto max-w-2xl rounded-2xl border border-amber-300/25 bg-[#040d22]/75 px-5 py-7 text-center">
               {remainingSlots > 0 ? (
                 <>
-                  <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-amber-300/40 bg-amber-400/10 text-amber-300 shadow-[0_0_24px_rgba(245,194,72,0.2)]">
-                    <Sparkles className="h-7 w-7" />
+                  <div className="mx-auto mb-2.5 flex h-11 w-11 items-center justify-center rounded-full border border-amber-300/40 bg-amber-400/10 text-amber-300 shadow-[0_0_24px_rgba(245,194,72,0.2)]">
+                    <Sparkles className="h-5 w-5" />
                   </div>
-                  <p className="text-lg sm:text-2xl font-bold text-amber-100">
+                  <p className="text-base sm:text-xl font-bold text-amber-100">
                     Sẵn sàng tìm chủ nhân may mắn
                   </p>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-300/85">
+                  <p className="mt-1.5 text-xs sm:text-sm text-slate-300/85">
                     Tổng số người tham gia hợp lệ:{' '}
                     <span className="font-bold text-amber-300">
                       {availablePool.length}
@@ -646,12 +646,12 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                   </p>
                 </>
               ) : (
-                <div className="py-2">
-                  <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400" />
-                  <p className="mt-3 text-xl font-bold text-emerald-200">
+                <div className="py-1">
+                  <CheckCircle2 className="mx-auto h-10 w-10 text-emerald-400" />
+                  <p className="mt-2.5 text-lg font-bold text-emerald-200">
                     {activePrize.name} đã trao đủ {activePrize.quantity} giải!
                   </p>
-                  <p className="mt-1 text-sm text-slate-300">
+                  <p className="mt-1 text-xs sm:text-sm text-slate-300">
                     Chọn hạng mục giải thưởng khác ở phía trên hoặc mở Bảng Vinh Danh để xem kết quả.
                   </p>
                 </div>
@@ -661,16 +661,16 @@ export const DrawStage: React.FC<DrawStageProps> = ({
         </div>
 
         {/* Action Bar */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
           {remainingSlots > 0 && (
             <button
               type="button"
               disabled={isSpinning || availablePool.length === 0}
               onClick={startDraw}
-              className="gold-button relative inline-flex items-center gap-3 overflow-hidden rounded-full px-8 py-3.5 text-base sm:text-lg font-extrabold tracking-wide disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+              className="gold-button relative inline-flex items-center gap-2.5 overflow-hidden rounded-full px-7 py-2.5 text-sm sm:text-base font-extrabold tracking-wide disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
             >
               <span className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent animate-shimmer" />
-              <Play className="h-5 w-5 fill-current" />
+              <Play className="h-4 w-4 fill-current" />
               <span>
                 {isSpinning
                   ? 'ĐANG QUAY SỐ...'
@@ -686,9 +686,9 @@ export const DrawStage: React.FC<DrawStageProps> = ({
               type="button"
               onClick={handleUndoCurrentReveal}
               title="Hủy kết quả lượt vừa quay để quay lại"
-              className="inline-flex items-center gap-2 rounded-full border border-rose-400/40 bg-rose-950/50 px-4 py-2.5 text-xs sm:text-sm font-semibold text-rose-200 hover:bg-rose-900/60 transition cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full border border-rose-400/40 bg-rose-950/50 px-4 py-2 text-xs sm:text-sm font-semibold text-rose-200 hover:bg-rose-900/60 transition cursor-pointer"
             >
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-3.5 w-3.5" />
               <span>Hủy &amp; Quay lại lượt này</span>
             </button>
           )}
@@ -696,19 +696,19 @@ export const DrawStage: React.FC<DrawStageProps> = ({
 
         {/* Existing winners for this prize (subtle strip at bottom if any prior rounds exist) */}
         {winnersForPrize.length > 0 && !isSpinning && (
-          <div className="mt-6 border-t border-amber-300/15 pt-4">
-            <div className="mb-2 flex items-center justify-between text-xs text-amber-200/80">
+          <div className="mt-4 border-t border-amber-300/15 pt-3">
+            <div className="mb-1.5 flex items-center justify-between text-xs text-amber-200/80">
               <span className="inline-flex items-center gap-1.5 font-semibold uppercase tracking-wider">
                 <Users className="h-3.5 w-3.5" />
                 Danh sách đã trúng {activePrize.name} ({winnersForPrize.length}/
                 {activePrize.quantity})
               </span>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {winnersForPrize.map((w) => (
                 <div
                   key={w.id}
-                  className="inline-flex items-center gap-2 rounded-lg border border-amber-300/25 bg-slate-900/75 px-3 py-1.5 text-xs"
+                  className="inline-flex items-center gap-2 rounded-lg border border-amber-300/25 bg-slate-900/75 px-2.5 py-1 text-xs"
                 >
                   <span className="font-mono font-bold text-amber-300">
                     {w.participantCode}

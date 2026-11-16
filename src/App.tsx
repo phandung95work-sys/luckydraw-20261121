@@ -255,8 +255,8 @@ export function App() {
 
       {/* Event Footer matching Backdrop */}
       {state.settings.showEventFooter && (
-        <footer className="relative z-10 pb-4 pt-1 text-center select-none">
-          <div className="inline-flex flex-wrap items-center justify-center gap-4 px-4 text-xs sm:text-sm font-medium text-amber-100/85">
+        <footer className="relative z-10 pb-2.5 pt-0.5 text-center select-none">
+          <div className="inline-flex flex-wrap items-center justify-center gap-3 px-4 text-[11px] sm:text-xs font-medium text-amber-100/85">
             <span className="inline-flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5 text-amber-300" />
               <span>{state.settings.eventTimeText}</span>
