@@ -1,8 +1,14 @@
 {
-  "source": "Danh sách khách và Agribank ăn tối.xlsx",
-  "total": 124,
+  "total": 116,
   "excluded": [
-    "Đặng Tùng Sơn – CMCTS"
+    "Phạm Toàn Vượng – Ban Lãnh đạo Agribank",
+    "Lê Xuân Trung – Ban Lãnh đạo Agribank",
+    "Lê Hồng Phúc – Ban Lãnh đạo Agribank",
+    "Hoàng Minh Ngọc – Ban Lãnh đạo Agribank",
+    "Trương Huy Hoan – Trung tâm CNTT",
+    "Nguyễn Vũ Hải – Trung tâm CNTT",
+    "Vũ Hải – Trung tâm CNTT",
+    "Trần Đình Luyện – Trung tâm CNTT"
   ],
   "participants": [
     {
@@ -463,412 +469,356 @@
     {
       "id": "p-ag-001",
       "code": "AG-001",
-      "name": "Phạm Toàn Vượng",
-      "department": "Ban Lãnh đạo Agribank",
+      "name": "Nguyễn Hữu Ngọc Thắng",
+      "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-002",
       "code": "AG-002",
-      "name": "Lê Xuân Trung",
-      "department": "Ban Lãnh đạo Agribank",
+      "name": "Nguyễn Thu Thủy",
+      "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-003",
       "code": "AG-003",
-      "name": "Lê Hồng Phúc",
-      "department": "Ban Lãnh đạo Agribank",
+      "name": "Nguyễn Đức Tuấn",
+      "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-004",
       "code": "AG-004",
-      "name": "Hoàng Minh Ngọc",
-      "department": "Ban Lãnh đạo Agribank",
+      "name": "Đồng Văn Hoan",
+      "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-005",
       "code": "AG-005",
-      "name": "Trương Huy Hoan",
+      "name": "Trịnh Ba Duy",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-006",
       "code": "AG-006",
-      "name": "Nguyễn Hữu Ngọc Thắng",
+      "name": "Trần Thị Huyền Thanh",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-007",
       "code": "AG-007",
-      "name": "Nguyễn Thu Thủy",
+      "name": "Trần Xuân Thắng",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-008",
       "code": "AG-008",
-      "name": "Nguyễn Đức Tuấn",
+      "name": "Phùng Bá Viễn",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-009",
       "code": "AG-009",
-      "name": "Đồng Văn Hoan",
+      "name": "Nguyễn Phan Hải",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-010",
       "code": "AG-010",
-      "name": "Trịnh Ba Duy",
+      "name": "Trần Thị Lệ Dung",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-011",
       "code": "AG-011",
-      "name": "Trần Thị Huyền Thanh",
+      "name": "Trương Ngọc Hùng",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-012",
       "code": "AG-012",
-      "name": "Trần Xuân Thắng",
+      "name": "Nguyễn Trung Kiên",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-013",
       "code": "AG-013",
-      "name": "Phùng Bá Viễn",
+      "name": "Nguyễn Ngọc Quỳnh",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-014",
       "code": "AG-014",
-      "name": "Nguyễn Phan Hải",
+      "name": "Trần Anh Tuấn",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-015",
       "code": "AG-015",
-      "name": "Trần Thị Lệ Dung",
+      "name": "Phạm Đức Ngọc",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-016",
       "code": "AG-016",
-      "name": "Trương Ngọc Hùng",
+      "name": "Phạm Văn Phố",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-017",
       "code": "AG-017",
-      "name": "Nguyễn Trung Kiên",
+      "name": "Ngô Thanh Tùy",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-018",
       "code": "AG-018",
-      "name": "Nguyễn Ngọc Quỳnh",
+      "name": "Hoàng Tuấn Anh",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-019",
       "code": "AG-019",
-      "name": "Trần Anh Tuấn",
+      "name": "Lê Quốc Huy",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-020",
       "code": "AG-020",
-      "name": "Phạm Đức Ngọc",
+      "name": "Trịnh Thu Hương",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-021",
       "code": "AG-021",
-      "name": "Phạm Văn Phố",
+      "name": "Nguyễn Bá Vương",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-022",
       "code": "AG-022",
-      "name": "Ngô Thanh Tùy",
+      "name": "Trần Đức Long",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-023",
       "code": "AG-023",
-      "name": "Hoàng Tuấn Anh",
+      "name": "Vương Xuân Nghĩa",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-024",
       "code": "AG-024",
-      "name": "Lê Quốc Huy",
+      "name": "Mạc Văn Kha",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-025",
       "code": "AG-025",
-      "name": "Trịnh Thu Hương",
+      "name": "Nguyễn Tuấn Việt",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-026",
       "code": "AG-026",
-      "name": "Nguyễn Bá Vương",
+      "name": "Nguyễn Phương Nam",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-027",
       "code": "AG-027",
-      "name": "Trần Đức Long",
+      "name": "Bùi Trung Dũng",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-028",
       "code": "AG-028",
-      "name": "Vương Xuân Nghĩa",
+      "name": "Điêu Tiến Thọ",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-029",
       "code": "AG-029",
-      "name": "Mạc Văn Kha",
+      "name": "Đoàn Trọng Toàn",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-030",
       "code": "AG-030",
-      "name": "Nguyễn Tuấn Việt",
+      "name": "Nguyễn Việt Tuấn",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-031",
       "code": "AG-031",
-      "name": "Nguyễn Phương Nam",
+      "name": "Ngô Hải Đông",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-032",
       "code": "AG-032",
-      "name": "Bùi Trung Dũng",
+      "name": "Nguyễn Anh Tuấn",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-033",
       "code": "AG-033",
-      "name": "Điêu Tiến Thọ",
+      "name": "Nguyễn Văn Tùng",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-034",
       "code": "AG-034",
-      "name": "Đoàn Trọng Toàn",
+      "name": "Nguyễn Thị Dung",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-035",
       "code": "AG-035",
-      "name": "Nguyễn Việt Tuấn",
+      "name": "Phan Thị Thùy Dung",
       "department": "Trung tâm CNTT",
       "eligible": true
     },
     {
       "id": "p-ag-036",
       "code": "AG-036",
-      "name": "Ngô Hải Đông",
-      "department": "Trung tâm CNTT",
-      "eligible": true
-    },
-    {
-      "id": "p-ag-037",
-      "code": "AG-037",
-      "name": "Nguyễn Anh Tuấn",
-      "department": "Trung tâm CNTT",
-      "eligible": true
-    },
-    {
-      "id": "p-ag-038",
-      "code": "AG-038",
-      "name": "Nguyễn Văn Tùng",
-      "department": "Trung tâm CNTT",
-      "eligible": true
-    },
-    {
-      "id": "p-ag-039",
-      "code": "AG-039",
-      "name": "Nguyễn Thị Dung",
-      "department": "Trung tâm CNTT",
-      "eligible": true
-    },
-    {
-      "id": "p-ag-040",
-      "code": "AG-040",
-      "name": "Nguyễn Vũ Hải",
-      "department": "Trung tâm CNTT",
-      "eligible": true
-    },
-    {
-      "id": "p-ag-041",
-      "code": "AG-041",
-      "name": "Vũ Hải",
-      "department": "Trung tâm CNTT",
-      "eligible": true
-    },
-    {
-      "id": "p-ag-042",
-      "code": "AG-042",
-      "name": "Trần Đình Luyện",
-      "department": "Trung tâm CNTT",
-      "eligible": true
-    },
-    {
-      "id": "p-ag-043",
-      "code": "AG-043",
-      "name": "Phan Thị Thùy Dung",
-      "department": "Trung tâm CNTT",
-      "eligible": true
-    },
-    {
-      "id": "p-ag-044",
-      "code": "AG-044",
       "name": "Nguyễn Hoàng Nguyên",
       "department": "Ban Công nghệ",
       "eligible": true
     },
     {
-      "id": "p-ag-045",
-      "code": "AG-045",
+      "id": "p-ag-037",
+      "code": "AG-037",
       "name": "Nguyễn Văn Sang",
       "department": "Ban Công nghệ",
       "eligible": true
     },
     {
-      "id": "p-ag-046",
-      "code": "AG-046",
+      "id": "p-ag-038",
+      "code": "AG-038",
       "name": "Bùi Hữu Lượng",
       "department": "Ban Công nghệ",
       "eligible": true
     },
     {
-      "id": "p-ag-047",
-      "code": "AG-047",
+      "id": "p-ag-039",
+      "code": "AG-039",
       "name": "Trần Văn Tuấn",
       "department": "Ban Công nghệ",
       "eligible": true
     },
     {
-      "id": "p-ag-048",
-      "code": "AG-048",
+      "id": "p-ag-040",
+      "code": "AG-040",
       "name": "Tô Văn Khiêm",
       "department": "Ban Công nghệ",
       "eligible": true
     },
     {
-      "id": "p-ag-049",
-      "code": "AG-049",
+      "id": "p-ag-041",
+      "code": "AG-041",
       "name": "Nguyễn Khắc Trung",
       "department": "Ban Ngân hàng Số",
       "eligible": true
     },
     {
-      "id": "p-ag-050",
-      "code": "AG-050",
+      "id": "p-ag-042",
+      "code": "AG-042",
       "name": "Đặng Văn Thực",
       "department": "Ban Ngân hàng Số",
       "eligible": true
     },
     {
-      "id": "p-ag-051",
-      "code": "AG-051",
+      "id": "p-ag-043",
+      "code": "AG-043",
       "name": "Vũ Công Hoàn",
       "department": "Ban Ngân hàng Số",
       "eligible": true
     },
     {
-      "id": "p-ag-052",
-      "code": "AG-052",
+      "id": "p-ag-044",
+      "code": "AG-044",
       "name": "Hoàng Văn Anh",
       "department": "Ban Ngân hàng Số",
       "eligible": true
     },
     {
-      "id": "p-ag-053",
-      "code": "AG-053",
+      "id": "p-ag-045",
+      "code": "AG-045",
       "name": "Phan Thị Phương Loan",
       "department": "Ban Ngân hàng Số",
       "eligible": true
     },
     {
-      "id": "p-ag-054",
-      "code": "AG-054",
+      "id": "p-ag-046",
+      "code": "AG-046",
       "name": "Đinh Quang Dân",
       "department": "Trung tâm Quản lý Dữ liệu",
       "eligible": true
     },
     {
-      "id": "p-ag-055",
-      "code": "AG-055",
+      "id": "p-ag-047",
+      "code": "AG-047",
       "name": "Lê Thị Hồ Diệp",
       "department": "Trung tâm Quản lý Dữ liệu",
       "eligible": true
     },
     {
-      "id": "p-ag-056",
-      "code": "AG-056",
+      "id": "p-ag-048",
+      "code": "AG-048",
       "name": "Lê Văn Tuấn",
       "department": "Trung tâm Quản lý Dữ liệu",
       "eligible": true
     },
     {
-      "id": "p-ag-057",
-      "code": "AG-057",
+      "id": "p-ag-049",
+      "code": "AG-049",
       "name": "Lê Quang Hưng",
       "department": "Trung tâm Quản lý Dữ liệu",
       "eligible": true
     },
     {
-      "id": "p-ag-058",
-      "code": "AG-058",
+      "id": "p-ag-050",
+      "code": "AG-050",
       "name": "Cao Thị Lệ Thủy",
       "department": "Trung tâm Quản lý Dữ liệu",
       "eligible": true
     },
     {
-      "id": "p-ag-059",
-      "code": "AG-059",
+      "id": "p-ag-051",
+      "code": "AG-051",
       "name": "Hoàng Minh Tuấn",
       "department": "Trung tâm Quản lý Dữ liệu",
       "eligible": true

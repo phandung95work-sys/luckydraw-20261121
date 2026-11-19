@@ -20,7 +20,7 @@ import { DrawStage } from './components/DrawStage';
 import { WinnersBoard } from './components/WinnersBoard';
 import { AdminModal } from './components/AdminModal';
 
-const STORAGE_KEY = 'agribank_gala_luckydraw_v6_phanthithuydung';
+const STORAGE_KEY = 'agribank_gala_luckydraw_v7_no_bld_8';
 
 function loadInitialState(): AppState {
   try {
