@@ -108,7 +108,7 @@ export const EVENT_PARTICIPANTS: Participant[] = [
   { id: 'p-ag-040', code: 'AG-040', name: 'Nguyễn Vũ Hải', department: 'Trung tâm CNTT', eligible: true },
   { id: 'p-ag-041', code: 'AG-041', name: 'Vũ Hải', department: 'Trung tâm CNTT', eligible: true },
   { id: 'p-ag-042', code: 'AG-042', name: 'Trần Đình Luyện', department: 'Trung tâm CNTT', eligible: true },
-  { id: 'p-ag-043', code: 'AG-043', name: 'Phạm Thùy Dung', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-043', code: 'AG-043', name: 'Phan Thị Thùy Dung', department: 'Trung tâm CNTT', eligible: true },
   { id: 'p-ag-044', code: 'AG-044', name: 'Nguyễn Hoàng Nguyên', department: 'Ban Công nghệ', eligible: true },
   { id: 'p-ag-045', code: 'AG-045', name: 'Nguyễn Văn Sang', department: 'Ban Công nghệ', eligible: true },
   { id: 'p-ag-046', code: 'AG-046', name: 'Bùi Hữu Lượng', department: 'Ban Công nghệ', eligible: true },
