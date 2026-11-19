@@ -127,10 +127,6 @@ export const EVENT_PARTICIPANTS: Participant[] = [
   { id: 'p-ag-059', code: 'AG-059', name: 'Hoàng Minh Tuấn', department: 'Trung tâm Quản lý Dữ liệu', eligible: true },
 ];
 
-export function generateSampleParticipants(_count = 100): Participant[] {
-  return EVENT_PARTICIPANTS.map((p) => ({ ...p }));
-}
-
 export const DEFAULT_PRIZES: Prize[] = [
   {
     id: 'prize-khuyen-khich',

@@ -20,7 +20,7 @@ import { DrawStage } from './components/DrawStage';
 import { WinnersBoard } from './components/WinnersBoard';
 import { AdminModal } from './components/AdminModal';
 
-const STORAGE_KEY = 'agribank_gala_luckydraw_v4_exact_an_toi_124';
+const STORAGE_KEY = 'agribank_gala_luckydraw_v5_official_124';
 
 function loadInitialState(): AppState {
   try {

@@ -28,7 +28,7 @@ import {
   Participant,
   Prize,
 } from '../types';
-import { generateSampleParticipants } from '../data/defaultData';
+import { EVENT_PARTICIPANTS } from '../data/defaultData';
 import { parseParticipantsFromExcel } from '../utils/excelImport';
 
 interface AdminModalProps {
@@ -729,21 +729,28 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     className="inline-flex items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-700 cursor-pointer"
                   >
                     <Download className="h-4 w-4" />
-                    <span>File mẫu</span>
+                    <span>Mẫu CSV</span>
                   </button>
 
                   <button
                     type="button"
-                    onClick={() =>
+                    onClick={() => {
+                      if (
+                        !window.confirm(
+                          `Nạp lại danh sách chính thức ${EVENT_PARTICIPANTS.length} người ăn tối Gala?\n(Kết quả đã quay sẽ được giữ nguyên)`
+                        )
+                      ) {
+                        return;
+                      }
                       onUpdateState((prev) => ({
                         ...prev,
-                        participants: generateSampleParticipants(100),
-                      }))
-                    }
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-700 cursor-pointer"
+                        participants: EVENT_PARTICIPANTS.map((p) => ({ ...p })),
+                      }));
+                    }}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300/40 bg-amber-400/15 px-3 py-2 text-xs font-semibold text-amber-200 hover:bg-amber-400/25 cursor-pointer"
                   >
                     <RefreshCw className="h-4 w-4" />
-                    <span>Tạo 100 mẫu</span>
+                    <span>Nạp DS chính thức ({EVENT_PARTICIPANTS.length})</span>
                   </button>
                 </div>
               </div>
