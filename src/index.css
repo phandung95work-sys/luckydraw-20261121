@@ -12,6 +12,126 @@
     background-color: #030917;
     color: #f8fafc;
     overflow-x: hidden;
+    min-height: 100%;
+  }
+
+  #root {
+    min-height: 100dvh;
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .min-h-app {
+    min-height: 100dvh;
+    min-height: 100vh;
+  }
+
+  .safe-px {
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  .safe-pb {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .safe-pt {
+    padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .prize-pill-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Short / projector viewports: tighten vertical rhythm */
+@media (max-height: 780px) {
+  .brand-header-responsive {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.35rem !important;
+    gap: 0.25rem !important;
+  }
+  .brand-header-responsive .agribank-ribbon {
+    transform: scale(0.88);
+    margin-top: 0.25rem !important;
+  }
+  .draw-stage-responsive {
+    gap: 0.65rem !important;
+    padding-bottom: 0.75rem !important;
+    padding-top: 0.25rem !important;
+  }
+  .draw-stage-card {
+    padding: 0.85rem 1rem !important;
+  }
+}
+
+/* Very short / landscape phones */
+@media (max-height: 560px) {
+  .brand-header-responsive {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.15rem !important;
+  }
+  .brand-header-responsive .agribank-ribbon {
+    display: none;
+  }
+  .draw-stage-responsive {
+    gap: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+  .draw-stage-card {
+    padding: 0.55rem 0.75rem !important;
+  }
+}
+
+/* Tablet portrait: keep stage readable */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .draw-stage-responsive {
+    max-width: 48rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .agribank-ribbon {
+    max-width: calc(100vw - 2rem);
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+  .agribank-ribbon::before,
+  .agribank-ribbon::after {
+    width: 14px;
+  }
+  .agribank-ribbon::before {
+    left: -8px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 8px 50%);
+  }
+  .agribank-ribbon::after {
+    right: -8px;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%);
+  }
+  .agribank-ribbon p {
+    font-size: 9px;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+    white-space: normal;
+  }
+}
+
+/* Ultrawide / large stage: keep content readable, not stretched edge-to-edge */
+@media (min-width: 1536px) {
+  .draw-stage-responsive {
+    max-width: 72rem;
   }
 }
 
@@ -157,6 +277,83 @@
 
 .animate-pulse-aura {
   animation: pulseAura 2.4s ease-in-out infinite;
+}
+
+/* ===== Stage atmosphere layers ===== */
+.stage-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(48px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+.stage-orb-a {
+  width: min(52vw, 520px);
+  height: min(52vw, 520px);
+  left: -8%;
+  top: 12%;
+  background: radial-gradient(circle, rgba(245, 194, 72, 0.35) 0%, rgba(245, 194, 72, 0) 70%);
+  animation: orbFloatA 16s ease-in-out infinite;
+}
+
+.stage-orb-b {
+  width: min(46vw, 460px);
+  height: min(46vw, 460px);
+  right: -6%;
+  top: 28%;
+  background: radial-gradient(circle, rgba(90, 140, 255, 0.28) 0%, rgba(90, 140, 255, 0) 70%);
+  animation: orbFloatB 19s ease-in-out infinite;
+}
+
+.stage-orb-c {
+  width: min(58vw, 580px);
+  height: min(40vw, 420px);
+  left: 22%;
+  bottom: -8%;
+  background: radial-gradient(circle, rgba(168, 24, 50, 0.22) 0%, rgba(168, 24, 50, 0) 72%);
+  animation: orbFloatC 22s ease-in-out infinite;
+}
+
+.stage-light-wash {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 220, 140, 0.07) 0%, transparent 22%),
+    linear-gradient(0deg, rgba(3, 9, 23, 0.55) 0%, transparent 28%),
+    radial-gradient(ellipse 70% 45% at 50% 48%, rgba(255, 210, 120, 0.08), transparent 70%);
+  animation: washPulse 10s ease-in-out infinite;
+}
+
+.stage-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+@keyframes orbFloatA {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate3d(4%, 6%, 0) scale(1.08); opacity: 0.72; }
+}
+
+@keyframes orbFloatB {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.45; }
+  50% { transform: translate3d(-5%, -4%, 0) scale(1.1); opacity: 0.68; }
+}
+
+@keyframes orbFloatC {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.4; }
+  50% { transform: translate3d(3%, -5%, 0) scale(1.06); opacity: 0.62; }
+}
+
+@keyframes washPulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
 }
 
 /* Custom sleek scrollbar */

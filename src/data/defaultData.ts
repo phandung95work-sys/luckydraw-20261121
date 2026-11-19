@@ -1,63 +1,134 @@
 import { AppState, Participant, Prize } from '../types';
-
-const DEPARTMENTS = [
-  'Phòng Phát triển Phần mềm 1',
-  'Phòng Phát triển Phần mềm 2',
-  'Phòng Hạ tầng & Điện toán đám mây',
-  'Phòng An ninh & Bảo mật thông tin',
-  'Phòng Dữ liệu lớn & AI',
-  'Phòng Vận hành Hệ thống CoreBanking',
-  'Phòng Ngân hàng Số & Thanh toán',
-  'Phòng Kiểm thử & Đảm bảo chất lượng',
-  'Phòng Hỗ trợ Kỹ thuật & Dịch vụ CNTT',
-  'Văn phòng Trung tâm CNTT',
+/** Danh sách thật ăn tối Gala – import từ Danh_sach_LuckyDraw_an_toi_import.xlsx (đã loại Đặng Tùng Sơn CMCSI/CMCIS). */
+export const EVENT_PARTICIPANTS: Participant[] = [
+  { id: 'p-dt-001', code: 'DT-001', name: 'Nguyễn Xuân Trường', department: 'F5 Networks', eligible: true },
+  { id: 'p-dt-002', code: 'DT-002', name: 'Đoàn Quang Huy', department: 'Công ty cổ phần công nghệ số Thiên Phú', eligible: true },
+  { id: 'p-dt-003', code: 'DT-003', name: 'Nguyễn Tuấn Linh', department: 'Red Hat', eligible: true },
+  { id: 'p-dt-004', code: 'DT-004', name: 'Nguyễn Hải Sơn', department: 'MITEC', eligible: true },
+  { id: 'p-dt-005', code: 'DT-005', name: 'Nguyễn Văn Toán', department: 'MITEC', eligible: true },
+  { id: 'p-dt-006', code: 'DT-006', name: 'Nguyễn Thế Triều', department: 'Oracle Việt Nam', eligible: true },
+  { id: 'p-dt-007', code: 'DT-007', name: 'Nguyễn Xuân Linh', department: 'Palo alto networks', eligible: true },
+  { id: 'p-dt-008', code: 'DT-008', name: 'Hoàng Quang Huy', department: 'Palo Alto Networks', eligible: true },
+  { id: 'p-dt-009', code: 'DT-009', name: 'Đinh Hoàng Điệp', department: 'AMIGO', eligible: true },
+  { id: 'p-dt-010', code: 'DT-010', name: 'Nguyễn Vũ Tuấn Anh', department: 'AMIGO', eligible: true },
+  { id: 'p-dt-011', code: 'DT-011', name: 'Trần Thanh Hải', department: 'Infornet', eligible: true },
+  { id: 'p-dt-012', code: 'DT-012', name: 'Hà Ngọc Linh', department: 'Infornet', eligible: true },
+  { id: 'p-dt-013', code: 'DT-013', name: 'Phùng Gia Tân', department: 'Fortinet Việt Nam', eligible: true },
+  { id: 'p-dt-014', code: 'DT-014', name: 'Nguyễn Gia Đức', department: 'Fortinet Việt Nam', eligible: true },
+  { id: 'p-dt-015', code: 'DT-015', name: 'Nghiêm Xuân Chiến', department: 'Vertiv', eligible: true },
+  { id: 'p-dt-016', code: 'DT-016', name: 'Phạm Việt Giang', department: 'SOTA Việt Nam', eligible: true },
+  { id: 'p-dt-017', code: 'DT-017', name: 'Trương Tuấn Thành', department: 'SOTA Việt Nam', eligible: true },
+  { id: 'p-dt-018', code: 'DT-018', name: 'Hồ Xuân Khánh', department: 'SOTA Việt Nam', eligible: true },
+  { id: 'p-dt-019', code: 'DT-019', name: 'Huỳnh Thế Vinh', department: 'Hpt', eligible: true },
+  { id: 'p-dt-020', code: 'DT-020', name: 'Nguyễn Quốc Thắng', department: 'Hpt', eligible: true },
+  { id: 'p-dt-021', code: 'DT-021', name: 'Nguyễn Thành Nam', department: 'CMCTS', eligible: true },
+  { id: 'p-dt-022', code: 'DT-022', name: 'Nguyễn Anh Tuấn', department: 'M.Tech', eligible: true },
+  { id: 'p-dt-023', code: 'DT-023', name: 'Vũ Phan Trung Dũng', department: 'M.Tech', eligible: true },
+  { id: 'p-dt-024', code: 'DT-024', name: 'Nguyễn Thế Dương', department: 'M.Tech', eligible: true },
+  { id: 'p-dt-025', code: 'DT-025', name: 'Đoàn Xuân Vũ', department: 'Cisco Việt Nam', eligible: true },
+  { id: 'p-dt-026', code: 'DT-026', name: 'Nguyễn Như Dũng', department: 'Cisco Việt Nam', eligible: true },
+  { id: 'p-dt-027', code: 'DT-027', name: 'Nguyễn Tiến Sỹ', department: 'Công ty TNHH Phát triển Thương mại và Kỹ thuật Toàn Cầu', eligible: true },
+  { id: 'p-dt-028', code: 'DT-028', name: 'Lê Thanh Hải', department: 'SVTECH', eligible: true },
+  { id: 'p-dt-029', code: 'DT-029', name: 'Tống Vinh Hiển', department: 'SVTECH', eligible: true },
+  { id: 'p-dt-030', code: 'DT-030', name: 'Trần Mạnh Dinh', department: 'Công ty TNHH FPT IS', eligible: true },
+  { id: 'p-dt-031', code: 'DT-031', name: 'Đào Hồng Giang', department: 'Công ty TNHH FPT IS', eligible: true },
+  { id: 'p-dt-032', code: 'DT-032', name: 'Đinh Sỹ Hùng', department: 'Netcorp', eligible: true },
+  { id: 'p-dt-033', code: 'DT-033', name: 'Hồ Lý Tuấn', department: 'Netcorp', eligible: true },
+  { id: 'p-dt-034', code: 'DT-034', name: 'Trần Ngọc Vinh', department: 'IBM', eligible: true },
+  { id: 'p-dt-035', code: 'DT-035', name: 'Lê Thị Thu Hằng', department: 'IBM', eligible: true },
+  { id: 'p-dt-036', code: 'DT-036', name: 'Thái Sơn Tùng', department: 'IBM', eligible: true },
+  { id: 'p-dt-037', code: 'DT-037', name: 'Nguyễn Kim Hoà', department: 'Check Point', eligible: true },
+  { id: 'p-dt-038', code: 'DT-038', name: 'Triệu Hồng Biên', department: 'Check Point', eligible: true },
+  { id: 'p-dt-039', code: 'DT-039', name: 'Phạm Văn Lợi', department: 'Check Point', eligible: true },
+  { id: 'p-dt-040', code: 'DT-040', name: 'Nguyễn Trọng Lộc', department: 'Lenovo Việt Nam', eligible: true },
+  { id: 'p-dt-041', code: 'DT-041', name: 'Nguyễn Văn Giáp', department: 'Lenovo Việt Nam', eligible: true },
+  { id: 'p-dt-042', code: 'DT-042', name: 'Nguyễn Minh Tiến', department: 'Lenovo Việt Nam', eligible: true },
+  { id: 'p-dt-043', code: 'DT-043', name: 'Trần Thu Hiền', department: 'Lenovo Việt Nam', eligible: true },
+  { id: 'p-dt-044', code: 'DT-044', name: 'Nguyễn Quang Hiển', department: 'HP Việt Nam', eligible: true },
+  { id: 'p-dt-045', code: 'DT-045', name: 'Phạm Khắc An', department: 'HP Inc Vietnam', eligible: true },
+  { id: 'p-dt-046', code: 'DT-046', name: 'Đinh Lê Lợi', department: 'HPE', eligible: true },
+  { id: 'p-dt-047', code: 'DT-047', name: 'Nguyễn Quốc An', department: 'Dell VN', eligible: true },
+  { id: 'p-dt-048', code: 'DT-048', name: 'Phí Thị Diên', department: 'Dell VN', eligible: true },
+  { id: 'p-dt-049', code: 'DT-049', name: 'Phó Đức Kiên', department: 'Phó chủ tịch Tập Đoàn CMC - Phó TGĐ CMC Telecom', eligible: true },
+  { id: 'p-dt-050', code: 'DT-050', name: 'Bùi Thị Thu', department: 'Phó Giám dốc kinh doanh CMC Telecom', eligible: true },
+  { id: 'p-dt-051', code: 'DT-051', name: 'Nguyễn Thanh Thủy', department: 'Giám đốc 3C', eligible: true },
+  { id: 'p-dt-052', code: 'DT-052', name: 'Lê Thành Trung', department: 'TGĐ ETC', eligible: true },
+  { id: 'p-dt-053', code: 'DT-053', name: 'Đặng Kim Dũng', department: 'Giám đốc ETC', eligible: true },
+  { id: 'p-dt-054', code: 'DT-054', name: 'Phạm Minh Quang', department: 'Giám đốc Kinh doanh ETC', eligible: true },
+  { id: 'p-dt-055', code: 'DT-055', name: 'Nguyễn Ngọc Khánh', department: 'AM - ETC', eligible: true },
+  { id: 'p-dt-056', code: 'DT-056', name: 'Phạm Văn Đức', department: 'Savis', eligible: true },
+  { id: 'p-dt-057', code: 'DT-057', name: 'Hoàng Nguyên Vân', department: 'Savis', eligible: true },
+  { id: 'p-dt-058', code: 'DT-058', name: 'Nguyễn Mạnh Thường', department: '[Chưa ghi công ty]', eligible: true },
+  { id: 'p-dt-059', code: 'DT-059', name: 'Nguyễn Văn Lợi', department: 'Texco', eligible: true },
+  { id: 'p-dt-060', code: 'DT-060', name: 'Trần Hồng Anh', department: '[Chưa ghi công ty]', eligible: true },
+  { id: 'p-dt-061', code: 'DT-061', name: 'Mr Quốc', department: 'Juniper', eligible: true },
+  { id: 'p-dt-062', code: 'DT-062', name: 'Trần Vũ', department: 'Nutanix', eligible: true },
+  { id: 'p-dt-063', code: 'DT-063', name: 'Vũ Xuân Hiếu', department: 'Nutanix', eligible: true },
+  { id: 'p-dt-064', code: 'DT-064', name: 'Triệu Mạnh Tùng', department: 'A05', eligible: true },
+  { id: 'p-dt-065', code: 'DT-065', name: 'Mr Đạt', department: 'A05', eligible: true },
+  { id: 'p-ag-001', code: 'AG-001', name: 'Phạm Toàn Vượng', department: 'Ban Lãnh đạo Agribank', eligible: true },
+  { id: 'p-ag-002', code: 'AG-002', name: 'Lê Xuân Trung', department: 'Ban Lãnh đạo Agribank', eligible: true },
+  { id: 'p-ag-003', code: 'AG-003', name: 'Lê Hồng Phúc', department: 'Ban Lãnh đạo Agribank', eligible: true },
+  { id: 'p-ag-004', code: 'AG-004', name: 'Hoàng Minh Ngọc', department: 'Ban Lãnh đạo Agribank', eligible: true },
+  { id: 'p-ag-005', code: 'AG-005', name: 'Trương Huy Hoan', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-006', code: 'AG-006', name: 'Nguyễn Hữu Ngọc Thắng', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-007', code: 'AG-007', name: 'Nguyễn Thu Thủy', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-008', code: 'AG-008', name: 'Nguyễn Đức Tuấn', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-009', code: 'AG-009', name: 'Đồng Văn Hoan', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-010', code: 'AG-010', name: 'Trịnh Ba Duy', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-011', code: 'AG-011', name: 'Trần Thị Huyền Thanh', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-012', code: 'AG-012', name: 'Trần Xuân Thắng', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-013', code: 'AG-013', name: 'Phùng Bá Viễn', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-014', code: 'AG-014', name: 'Nguyễn Phan Hải', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-015', code: 'AG-015', name: 'Trần Thị Lệ Dung', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-016', code: 'AG-016', name: 'Trương Ngọc Hùng', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-017', code: 'AG-017', name: 'Nguyễn Trung Kiên', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-018', code: 'AG-018', name: 'Nguyễn Ngọc Quỳnh', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-019', code: 'AG-019', name: 'Trần Anh Tuấn', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-020', code: 'AG-020', name: 'Phạm Đức Ngọc', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-021', code: 'AG-021', name: 'Phạm Văn Phố', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-022', code: 'AG-022', name: 'Ngô Thanh Tùy', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-023', code: 'AG-023', name: 'Hoàng Tuấn Anh', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-024', code: 'AG-024', name: 'Lê Quốc Huy', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-025', code: 'AG-025', name: 'Trịnh Thu Hương', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-026', code: 'AG-026', name: 'Nguyễn Bá Vương', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-027', code: 'AG-027', name: 'Trần Đức Long', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-028', code: 'AG-028', name: 'Vương Xuân Nghĩa', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-029', code: 'AG-029', name: 'Mạc Văn Kha', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-030', code: 'AG-030', name: 'Nguyễn Tuấn Việt', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-031', code: 'AG-031', name: 'Nguyễn Phương Nam', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-032', code: 'AG-032', name: 'Bùi Trung Dũng', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-033', code: 'AG-033', name: 'Điêu Tiến Thọ', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-034', code: 'AG-034', name: 'Đoàn Trọng Toàn', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-035', code: 'AG-035', name: 'Nguyễn Việt Tuấn', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-036', code: 'AG-036', name: 'Ngô Hải Đông', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-037', code: 'AG-037', name: 'Nguyễn Anh Tuấn', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-038', code: 'AG-038', name: 'Nguyễn Văn Tùng', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-039', code: 'AG-039', name: 'Nguyễn Thị Dung', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-040', code: 'AG-040', name: 'Nguyễn Vũ Hải', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-041', code: 'AG-041', name: 'Vũ Hải', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-042', code: 'AG-042', name: 'Trần Đình Luyện', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-043', code: 'AG-043', name: 'Phạm Thùy Dung', department: 'Trung tâm CNTT', eligible: true },
+  { id: 'p-ag-044', code: 'AG-044', name: 'Nguyễn Hoàng Nguyên', department: 'Ban Công nghệ', eligible: true },
+  { id: 'p-ag-045', code: 'AG-045', name: 'Nguyễn Văn Sang', department: 'Ban Công nghệ', eligible: true },
+  { id: 'p-ag-046', code: 'AG-046', name: 'Bùi Hữu Lượng', department: 'Ban Công nghệ', eligible: true },
+  { id: 'p-ag-047', code: 'AG-047', name: 'Trần Văn Tuấn', department: 'Ban Công nghệ', eligible: true },
+  { id: 'p-ag-048', code: 'AG-048', name: 'Tô Văn Khiêm', department: 'Ban Công nghệ', eligible: true },
+  { id: 'p-ag-049', code: 'AG-049', name: 'Nguyễn Khắc Trung', department: 'Ban Ngân hàng Số', eligible: true },
+  { id: 'p-ag-050', code: 'AG-050', name: 'Đặng Văn Thực', department: 'Ban Ngân hàng Số', eligible: true },
+  { id: 'p-ag-051', code: 'AG-051', name: 'Vũ Công Hoàn', department: 'Ban Ngân hàng Số', eligible: true },
+  { id: 'p-ag-052', code: 'AG-052', name: 'Hoàng Văn Anh', department: 'Ban Ngân hàng Số', eligible: true },
+  { id: 'p-ag-053', code: 'AG-053', name: 'Phan Thị Phương Loan', department: 'Ban Ngân hàng Số', eligible: true },
+  { id: 'p-ag-054', code: 'AG-054', name: 'Đinh Quang Dân', department: 'Trung tâm Quản lý Dữ liệu', eligible: true },
+  { id: 'p-ag-055', code: 'AG-055', name: 'Lê Thị Hồ Diệp', department: 'Trung tâm Quản lý Dữ liệu', eligible: true },
+  { id: 'p-ag-056', code: 'AG-056', name: 'Lê Văn Tuấn', department: 'Trung tâm Quản lý Dữ liệu', eligible: true },
+  { id: 'p-ag-057', code: 'AG-057', name: 'Lê Quang Hưng', department: 'Trung tâm Quản lý Dữ liệu', eligible: true },
+  { id: 'p-ag-058', code: 'AG-058', name: 'Cao Thị Lệ Thủy', department: 'Trung tâm Quản lý Dữ liệu', eligible: true },
+  { id: 'p-ag-059', code: 'AG-059', name: 'Hoàng Minh Tuấn', department: 'Trung tâm Quản lý Dữ liệu', eligible: true },
 ];
 
-const FIRST_NAMES = [
-  'Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Huỳnh', 'Phan', 'Vũ', 'Võ', 'Đặng',
-  'Bùi', 'Đỗ', 'Hồ', 'Ngô', 'Dương', 'Lý', 'Đào', 'Đinh', 'Lâm', 'Trịnh',
-];
-
-const MIDDLE_NAMES = [
-  'Văn', 'Thị', 'Minh', 'Hoàng', 'Anh', 'Đức', 'Thanh', 'Quốc', 'Ngọc', 'Phương',
-  'Hữu', 'Gia', 'Tuấn', 'Khánh', 'Thùy', 'Hải', 'Bảo', 'Xuân', 'Quang', 'Duy',
-];
-
-const GIVEN_NAMES = [
-  'An', 'Bình', 'Chi', 'Dũng', 'Đạt', 'Giang', 'Hà', 'Hải', 'Hằng', 'Hiếu',
-  'Hoà', 'Hùng', 'Huy', 'Huyền', 'Khang', 'Khánh', 'Khoa', 'Lâm', 'Lan', 'Linh',
-  'Long', 'Mai', 'Minh', 'Nam', 'Nga', 'Ngân', 'Ngọc', 'Nhung', 'Phong', 'Phúc',
-  'Phương', 'Quân', 'Quang', 'Quỳnh', 'Sơn', 'Tâm', 'Thái', 'Thành', 'Thảo', 'Thắng',
-  'Thịnh', 'Thu', 'Thủy', 'Tiên', 'Toàn', 'Trang', 'Trung', 'Tú', 'Tuấn', 'Tùng',
-  'Uyên', 'Vân', 'Việt', 'Vinh', 'Vũ', 'Yến',
-];
-
-export function generateSampleParticipants(count = 100): Participant[] {
-  const list: Participant[] = [];
-  const usedNames = new Set<string>();
-
-  for (let i = 0; i < count; i++) {
-    let fullName = '';
-    let attempt = 0;
-    do {
-      const f = FIRST_NAMES[(i * 7 + attempt * 3) % FIRST_NAMES.length];
-      const m = MIDDLE_NAMES[(i * 5 + attempt * 11) % MIDDLE_NAMES.length];
-      const g = GIVEN_NAMES[(i * 13 + attempt * 17) % GIVEN_NAMES.length];
-      fullName = `${f} ${m} ${g}`;
-      attempt++;
-    } while (usedNames.has(fullName) && attempt < 40);
-
-    usedNames.add(fullName);
-    const num = String(i + 1).padStart(3, '0');
-    list.push({
-      id: `p-${num}`,
-      code: `IT-${num}`,
-      name: fullName,
-      department: DEPARTMENTS[i % DEPARTMENTS.length],
-      eligible: true,
-    });
-  }
-  return list;
+export function generateSampleParticipants(_count = 100): Participant[] {
+  return EVENT_PARTICIPANTS.map((p) => ({ ...p }));
 }
 
 export const DEFAULT_PRIZES: Prize[] = [
@@ -114,7 +185,7 @@ export const DEFAULT_PRIZES: Prize[] = [
 ];
 
 export const DEFAULT_APP_STATE: AppState = {
-  participants: generateSampleParticipants(100),
+  participants: EVENT_PARTICIPANTS.map((p) => ({ ...p })),
   prizes: DEFAULT_PRIZES,
   winners: [],
   riggedAssignments: {},

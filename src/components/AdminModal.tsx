@@ -29,6 +29,7 @@ import {
   Prize,
 } from '../types';
 import { generateSampleParticipants } from '../data/defaultData';
+import { parseParticipantsFromExcel } from '../utils/excelImport';
 
 interface AdminModalProps {
   open: boolean;
@@ -61,6 +62,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [newDept, setNewDept] = useState('');
   const [bulkText, setBulkText] = useState('');
   const [showBulkBox, setShowBulkBox] = useState(false);
+  const [excelImportMsg, setExcelImportMsg] = useState<string | null>(null);
+  const [excelImporting, setExcelImporting] = useState(false);
 
   // Rigging search state per slot dropdown
   const [rigSearch, setRigSearch] = useState('');
@@ -330,6 +333,48 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     e.target.value = '';
   };
 
+  const applyExcelParticipants = (parsed: Participant[], replaceAll: boolean) => {
+    onUpdateState((prev) => ({
+      ...prev,
+      participants: replaceAll ? parsed : [...prev.participants, ...parsed],
+    }));
+  };
+
+  const handleExcelUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+
+    const lower = file.name.toLowerCase();
+    if (!lower.endsWith('.xlsx') && !lower.endsWith('.xls')) {
+      setExcelImportMsg('Vui lòng chọn file Excel (.xlsx hoặc .xls).');
+      return;
+    }
+
+    setExcelImporting(true);
+    setExcelImportMsg(null);
+    try {
+      const buffer = await file.arrayBuffer();
+      const result = parseParticipantsFromExcel(buffer);
+      const replaceAll = window.confirm(
+        `Đã đọc ${result.totalRows} người từ sheet «${result.sheetName}».\n\n` +
+          `OK = Thay thế toàn bộ danh sách hiện tại\n` +
+          `Cancel = Thêm nối tiếp vào danh sách`
+      );
+      applyExcelParticipants(result.participants, replaceAll);
+      setExcelImportMsg(
+        `Đã import ${result.totalRows} người từ «${result.sheetName}» ` +
+          `(${replaceAll ? 'thay thế toàn bộ' : 'thêm nối tiếp'}).`
+      );
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Không đọc được file Excel.';
+      setExcelImportMsg(msg);
+      alert(msg);
+    } finally {
+      setExcelImporting(false);
+    }
+  };
+
   const downloadSampleCsv = () => {
     const sample =
       '\uFEFFMã NV,Họ và Tên,Phòng Ban\r\n' +
@@ -426,21 +471,21 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   return (
     <div
       data-modal-open="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 p-0 sm:p-3 md:p-5 backdrop-blur-md"
     >
-      <div className="gold-card relative flex h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl">
+      <div className="gold-card relative flex h-[96dvh] sm:h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-2xl sm:rounded-2xl">
         {/* Top Modal Header */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-amber-300/25 px-5 py-3.5">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-300/35 bg-amber-400/15 text-amber-300">
-              <Settings2 className="h-5 w-5" />
+        <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 border-b border-amber-300/25 px-3 sm:px-5 py-2.5 sm:py-3.5">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+            <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl border border-amber-300/35 bg-amber-400/15 text-amber-300">
+              <Settings2 className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
-            <div>
-              <h2 className="text-base sm:text-lg font-bold text-amber-100">
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-lg font-bold text-amber-100 truncate">
                 Bảng Cấu Hình Ban Tổ Chức
               </h2>
-              <p className="text-[11px] text-slate-300">
-                {state.participants.length} người tham gia • {state.prizes.length} hạng mục ({totalPrizesCount} phần quà)
+              <p className="text-[10px] sm:text-[11px] text-slate-300 truncate">
+                {state.participants.length} người • {state.prizes.length} hạng mục ({totalPrizesCount} phần quà)
               </p>
             </div>
           </div>
@@ -455,12 +500,12 @@ export const AdminModal: React.FC<AdminModalProps> = ({
         </div>
 
         {/* Tab Bar */}
-        <div className="flex overflow-x-auto border-b border-amber-300/20 bg-slate-950/60 px-4">
+        <div className="flex overflow-x-auto scrollbar-none border-b border-amber-300/20 bg-slate-950/60 px-2 sm:px-4">
           {[
-            { key: 'prizes', label: 'Cơ cấu giải thưởng', icon: Gift },
-            { key: 'participants', label: `Người tham gia (${state.participants.length})`, icon: Users },
-            { key: 'rigging', label: 'Chỉ định người trúng', icon: Target },
-            { key: 'settings', label: 'Thời gian, Nhạc & Giao diện', icon: Sliders },
+            { key: 'prizes', label: 'Cơ cấu giải', short: 'Giải', icon: Gift },
+            { key: 'participants', label: `Người tham gia (${state.participants.length})`, short: `DS (${state.participants.length})`, icon: Users },
+            { key: 'rigging', label: 'Chỉ định người trúng', short: 'Chỉ định', icon: Target },
+            { key: 'settings', label: 'Thời gian, Nhạc & Giao diện', short: 'Cài đặt', icon: Sliders },
           ].map((tab) => {
             const Icon = tab.icon;
             const active = activeTab === tab.key;
@@ -469,21 +514,22 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 key={tab.key}
                 type="button"
                 onClick={() => setActiveTab(tab.key as TabKey)}
-                className={`flex shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                className={`flex shrink-0 items-center gap-1.5 sm:gap-2 border-b-2 px-2.5 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-sm font-semibold transition cursor-pointer ${
                   active
                     ? 'border-amber-300 text-amber-200 bg-amber-400/5'
                     : 'border-transparent text-slate-400 hover:text-slate-200'
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                <span>{tab.label}</span>
+                <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="sm:hidden">{tab.short}</span>
+                <span className="hidden sm:inline">{tab.label}</span>
               </button>
             );
           })}
         </div>
 
         {/* Tab Content */}
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-5">
           {/* TAB 1: PRIZES */}
           {activeTab === 'prizes' && (
             <div className="space-y-4">
@@ -641,6 +687,22 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
+                  <label
+                    className={`inline-flex items-center gap-1.5 rounded-xl border border-emerald-400/50 bg-emerald-500/15 px-3 py-2 text-xs font-bold text-emerald-200 hover:bg-emerald-500/25 cursor-pointer ${
+                      excelImporting ? 'opacity-60 pointer-events-none' : ''
+                    }`}
+                  >
+                    <FileSpreadsheet className="h-4 w-4" />
+                    <span>{excelImporting ? 'Đang đọc Excel…' : 'Import Excel (.xlsx)'}</span>
+                    <input
+                      type="file"
+                      accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                      onChange={handleExcelUpload}
+                      className="hidden"
+                      disabled={excelImporting}
+                    />
+                  </label>
+
                   <button
                     type="button"
                     onClick={() => setShowBulkBox((v) => !v)}
@@ -685,6 +747,12 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   </button>
                 </div>
               </div>
+
+              {excelImportMsg && (
+                <div className="rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3.5 py-2.5 text-xs text-emerald-100">
+                  {excelImportMsg}
+                </div>
+              )}
 
               {/* Bulk Paste Box */}
               {showBulkBox && (

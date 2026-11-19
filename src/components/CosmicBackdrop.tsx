@@ -15,6 +15,16 @@ interface Star {
   phase: number;
 }
 
+interface DriftParticle {
+  x: number;
+  y: number;
+  r: number;
+  speed: number;
+  drift: number;
+  alpha: number;
+  phase: number;
+}
+
 interface FireworkParticle {
   x: number;
   y: number;
@@ -71,7 +81,6 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
       }
     };
 
-    // Multi-wave stage fireworks
     spawnBurst(w * 0.22, h * 0.32, 55);
     spawnBurst(w * 0.78, h * 0.32, 55);
     spawnBurst(w * 0.5, h * 0.24, 70);
@@ -99,6 +108,7 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
 
     let animId = 0;
     let stars: Star[] = [];
+    let drifts: DriftParticle[] = [];
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -107,13 +117,23 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
       canvas.style.width = `${window.innerWidth}px`;
       canvas.style.height = `${window.innerHeight}px`;
 
-      const count = Math.min(220, Math.floor((window.innerWidth * window.innerHeight) / 7200));
+      const count = Math.min(260, Math.floor((window.innerWidth * window.innerHeight) / 6400));
       stars = Array.from({ length: count }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        r: (0.7 + Math.random() * 1.9) * dpr,
-        alpha: 0.25 + Math.random() * 0.75,
-        twinkleSpeed: 0.6 + Math.random() * 2.1,
+        r: (0.6 + Math.random() * 2.1) * dpr,
+        alpha: 0.22 + Math.random() * 0.78,
+        twinkleSpeed: 0.55 + Math.random() * 2.2,
+        phase: Math.random() * Math.PI * 2,
+      }));
+
+      drifts = Array.from({ length: 48 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: (1.2 + Math.random() * 3.4) * dpr,
+        speed: (12 + Math.random() * 28) * dpr,
+        drift: (Math.random() - 0.5) * 18 * dpr,
+        alpha: 0.08 + Math.random() * 0.18,
         phase: Math.random() * Math.PI * 2,
       }));
     };
@@ -122,28 +142,24 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
     window.addEventListener('resize', resize);
 
     const drawCornerMesh = (w: number, h: number, time: number) => {
-      const glow = 0.24 + Math.sin(time * 1.4) * 0.06;
+      const glow = 0.22 + Math.sin(time * 1.35) * 0.07;
       ctx.save();
       ctx.strokeStyle = `rgba(232, 184, 78, ${glow})`;
       ctx.lineWidth = 1.1;
 
       const corners = [
-        // top-left
         [
           [0, 0], [w * 0.09, h * 0.03], [w * 0.14, 0], [w * 0.05, h * 0.14],
           [0, h * 0.2], [w * 0.11, h * 0.12], [w * 0.03, h * 0.29],
         ],
-        // top-right
         [
           [w, 0], [w * 0.91, h * 0.03], [w * 0.86, 0], [w * 0.95, h * 0.14],
           [w, h * 0.2], [w * 0.89, h * 0.12], [w * 0.97, h * 0.29],
         ],
-        // bottom-left
         [
           [0, h], [w * 0.08, h * 0.97], [w * 0.14, h], [w * 0.04, h * 0.84],
           [0, h * 0.78], [w * 0.1, h * 0.87], [w * 0.03, h * 0.69],
         ],
-        // bottom-right
         [
           [w, h], [w * 0.92, h * 0.97], [w * 0.86, h], [w * 0.96, h * 0.84],
           [w, h * 0.78], [w * 0.9, h * 0.87], [w * 0.97, h * 0.69],
@@ -179,31 +195,77 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
       ctx.restore();
     };
 
+    const drawAuroraBands = (w: number, h: number, time: number, boost: number) => {
+      ctx.save();
+      for (let i = 0; i < 3; i++) {
+        const y = h * (0.18 + i * 0.16);
+        const amp = h * (0.035 + i * 0.01) * (1 + boost * 0.25);
+        const grad = ctx.createLinearGradient(0, y - amp, 0, y + amp);
+        const a = 0.045 + i * 0.015 + boost * 0.02;
+        grad.addColorStop(0, 'rgba(80, 140, 255, 0)');
+        grad.addColorStop(0.5, `rgba(${i === 1 ? '232, 170, 70' : '90, 150, 255'}, ${a})`);
+        grad.addColorStop(1, 'rgba(80, 140, 255, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        for (let x = 0; x <= w; x += w / 48) {
+          const t = x / w;
+          const wave =
+            Math.sin(t * 4.2 + time * (0.35 + i * 0.08) + i) * amp +
+            Math.cos(t * 7.5 - time * 0.22 + i) * amp * 0.35;
+          ctx.lineTo(x, y + wave);
+        }
+        ctx.lineTo(w, y + amp * 2);
+        ctx.lineTo(0, y + amp * 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
+    };
+
     const drawParticleWaves = (w: number, h: number, time: number, boost: number) => {
       ctx.save();
-      const ribbons = 7;
-      const dotsPerRibbon = 76;
-      const baseY = h * 0.62;
+      const ribbons = 8;
+      const dotsPerRibbon = 82;
+      const baseY = h * 0.64;
 
       for (let r = 0; r < ribbons; r++) {
-        const offsetR = (r - ribbons / 2) * (h * 0.014);
+        const offsetR = (r - ribbons / 2) * (h * 0.016);
         for (let i = 0; i <= dotsPerRibbon; i++) {
           const t = i / dotsPerRibbon;
           const x = t * w;
-          const wave1 = Math.sin(t * 5.2 + time * (0.65 + boost * 0.8) + r * 0.32) * (h * 0.075);
-          const wave2 = Math.cos(t * 9.5 - time * 0.4 + r * 0.2) * (h * 0.025);
+          const wave1 = Math.sin(t * 5.2 + time * (0.65 + boost * 0.8) + r * 0.32) * (h * 0.08);
+          const wave2 = Math.cos(t * 9.5 - time * 0.4 + r * 0.2) * (h * 0.028);
           const y = baseY + offsetR + wave1 + wave2;
-
-          // Fade slightly toward very center so stage text remains high contrast
           const distFromCenter = Math.abs(t - 0.5) * 2;
-          const alpha = (0.14 + distFromCenter * 0.34) * (1 - Math.abs(r - ribbons / 2) / ribbons);
-          const size = (1.1 + distFromCenter * 1.4) * (window.devicePixelRatio || 1);
-
+          const alpha = (0.12 + distFromCenter * 0.36) * (1 - Math.abs(r - ribbons / 2) / ribbons);
+          const size = (1.1 + distFromCenter * 1.5) * (window.devicePixelRatio || 1);
           ctx.fillStyle = `rgba(248, 208, 108, ${alpha})`;
           ctx.beginPath();
           ctx.arc(x, y, size, 0, Math.PI * 2);
           ctx.fill();
         }
+      }
+      ctx.restore();
+    };
+
+    const drawDriftParticles = (w: number, h: number, time: number, dt: number, boost: number) => {
+      ctx.save();
+      for (const p of drifts) {
+        p.y -= p.speed * dt * (1 + boost * 0.55);
+        p.x += Math.sin(time * 0.7 + p.phase) * p.drift * dt * 0.35;
+        if (p.y < -20) {
+          p.y = h + 20;
+          p.x = Math.random() * w;
+        }
+        const pulse = 0.55 + 0.45 * Math.sin(time * 1.6 + p.phase);
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+        grad.addColorStop(0, `rgba(255, 230, 150, ${p.alpha * pulse * (1 + boost * 0.4)})`);
+        grad.addColorStop(1, 'rgba(255, 210, 90, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+        ctx.fill();
       }
       ctx.restore();
     };
@@ -216,23 +278,53 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
       const w = canvas.width;
       const h = canvas.height;
       const boost = spinningRef.current ? 1 : 0;
+      const dpr = window.devicePixelRatio || 1;
 
       ctx.clearRect(0, 0, w, h);
+
+      // Soft vertical light columns
+      for (let i = 0; i < 3; i++) {
+        const cx = w * (0.18 + i * 0.32);
+        const sway = Math.sin(time * (0.25 + i * 0.08) + i) * w * 0.02;
+        const col = ctx.createLinearGradient(cx + sway, 0, cx + sway, h);
+        col.addColorStop(0, 'rgba(255, 210, 120, 0)');
+        col.addColorStop(0.22, `rgba(255, 200, 100, ${0.035 + boost * 0.02})`);
+        col.addColorStop(0.55, `rgba(120, 170, 255, ${0.03 + boost * 0.015})`);
+        col.addColorStop(1, 'rgba(255, 210, 120, 0)');
+        ctx.fillStyle = col;
+        ctx.fillRect(cx + sway - w * 0.08, 0, w * 0.16, h);
+      }
 
       // Ambient gold radial aurora behind stage center
       const centerGlow = ctx.createRadialGradient(
         w * 0.5,
-        h * 0.44,
+        h * 0.42,
         w * 0.02,
         w * 0.5,
-        h * 0.44,
-        w * (spinningRef.current ? 0.48 : 0.38)
+        h * 0.42,
+        w * (spinningRef.current ? 0.52 : 0.4)
       );
-      centerGlow.addColorStop(0, `rgba(229, 173, 58, ${spinningRef.current ? 0.22 : 0.13})`);
-      centerGlow.addColorStop(0.45, `rgba(165, 110, 32, ${spinningRef.current ? 0.09 : 0.05})`);
+      centerGlow.addColorStop(0, `rgba(229, 173, 58, ${spinningRef.current ? 0.26 : 0.15})`);
+      centerGlow.addColorStop(0.4, `rgba(165, 110, 32, ${spinningRef.current ? 0.11 : 0.06})`);
       centerGlow.addColorStop(1, 'rgba(3, 9, 23, 0)');
       ctx.fillStyle = centerGlow;
       ctx.fillRect(0, 0, w, h);
+
+      // Secondary crimson glow (brand accent)
+      const redGlow = ctx.createRadialGradient(
+        w * 0.5,
+        h * 0.08,
+        0,
+        w * 0.5,
+        h * 0.08,
+        w * 0.35
+      );
+      redGlow.addColorStop(0, `rgba(168, 24, 50, ${0.14 + boost * 0.06})`);
+      redGlow.addColorStop(1, 'rgba(168, 24, 50, 0)');
+      ctx.fillStyle = redGlow;
+      ctx.fillRect(0, 0, w, h);
+
+      drawAuroraBands(w, h, time, boost);
 
       // Stars
       for (const s of stars) {
@@ -243,8 +335,23 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
         ctx.fill();
       }
 
+      drawDriftParticles(w, h, time, dt, boost);
       drawParticleWaves(w, h, time, boost);
       drawCornerMesh(w, h, time);
+
+      // Soft vignette for stage focus
+      const vignette = ctx.createRadialGradient(
+        w * 0.5,
+        h * 0.48,
+        Math.min(w, h) * 0.28,
+        w * 0.5,
+        h * 0.48,
+        Math.max(w, h) * 0.72
+      );
+      vignette.addColorStop(0, 'rgba(2, 7, 19, 0)');
+      vignette.addColorStop(1, 'rgba(2, 7, 19, 0.42)');
+      ctx.fillStyle = vignette;
+      ctx.fillRect(0, 0, w, h);
 
       // Fireworks / confetti
       const nextParticles: FireworkParticle[] = [];
@@ -255,8 +362,8 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
         p.vy += 0.095;
         p.vx *= 0.988;
         p.vy *= 0.988;
-        p.x += p.vx * (window.devicePixelRatio || 1);
-        p.y += p.vy * (window.devicePixelRatio || 1);
+        p.x += p.vx * dpr;
+        p.y += p.vy * dpr;
         p.rot += p.vRot;
 
         const alpha = Math.max(0, 1 - p.life / p.maxLife);
@@ -266,11 +373,11 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rot);
         if (p.isConfetti) {
-          const s = p.size * (window.devicePixelRatio || 1);
+          const s = p.size * dpr;
           ctx.fillRect(-s, -s * 0.45, s * 2, s * 0.9);
         } else {
           ctx.beginPath();
-          ctx.arc(0, 0, p.size * (window.devicePixelRatio || 1) * 0.65, 0, Math.PI * 2);
+          ctx.arc(0, 0, p.size * dpr * 0.65, 0, Math.PI * 2);
           ctx.fill();
         }
         ctx.restore();
@@ -295,9 +402,17 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 85% 65% at 50% 35%, #0c224d 0%, #06132e 55%, #020713 100%)',
+            'radial-gradient(ellipse 90% 70% at 50% 32%, #0d2758 0%, #071533 48%, #030917 78%, #01040c 100%)',
         }}
       />
+
+      {/* Soft floating glow orbs (CSS layer) */}
+      <div className="stage-orb stage-orb-a" />
+      <div className="stage-orb stage-orb-b" />
+      <div className="stage-orb stage-orb-c" />
+
+      {/* Gentle vertical light wash */}
+      <div className="stage-light-wash" />
 
       {/* Optional subtle blend of actual provided backdrop */}
       {backdropOpacity > 0 && (
@@ -311,6 +426,9 @@ export const CosmicBackdrop: React.FC<CosmicBackdropProps> = ({
 
       {/* Animated constellation, waves & fireworks canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+
+      {/* Film grain / soft texture */}
+      <div className="stage-grain" />
     </div>
   );
 };

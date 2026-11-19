@@ -20,7 +20,7 @@ import { DrawStage } from './components/DrawStage';
 import { WinnersBoard } from './components/WinnersBoard';
 import { AdminModal } from './components/AdminModal';
 
-const STORAGE_KEY = 'agribank_gala_luckydraw_v1';
+const STORAGE_KEY = 'agribank_gala_luckydraw_v3_an_toi_no_tungson';
 
 function loadInitialState(): AppState {
   try {
@@ -145,6 +145,27 @@ export function App() {
     setStageKey((k) => k + 1);
   }, [isSpinning]);
 
+  const handleResetPrizeWinners = useCallback(
+    (prizeId: string) => {
+      if (isSpinning) return;
+      const prize = state.prizes.find((p) => p.id === prizeId);
+      const prizeLabel = prize?.name ?? 'giải này';
+      if (
+        !window.confirm(
+          `Reset kết quả của ${prizeLabel} để quay lại từ đầu?\n(Các giải khác được giữ nguyên)`
+        )
+      ) {
+        return;
+      }
+      setState((prev) => ({
+        ...prev,
+        winners: prev.winners.filter((w) => w.prizeId !== prizeId),
+      }));
+      setStageKey((k) => k + 1);
+    },
+    [isSpinning, state.prizes]
+  );
+
   const toggleSound = () => {
     ceremonyAudio.unlock();
     setState((prev) => ({
@@ -166,7 +187,7 @@ export function App() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-between overflow-hidden">
+    <div className="relative flex min-h-app flex-col justify-between gap-1 overflow-x-hidden overflow-y-auto safe-pt safe-pb">
       <CosmicBackdrop
         isSpinning={isSpinning}
         celebrateKey={celebrateKey}
@@ -175,8 +196,8 @@ export function App() {
 
       {/* Discreet Floating Stage Control Bar */}
       {!hideControls && (
-        <div className="relative z-30 flex w-full justify-end px-3 pt-2.5 md:fixed md:right-4 md:top-4 md:w-auto md:p-0">
-          <div className="flex items-center gap-1.5 rounded-full border border-amber-300/25 bg-[#040c20]/80 px-2 py-1.5 backdrop-blur-md shadow-lg">
+        <div className="relative z-30 flex w-full justify-end safe-px px-2 sm:px-3 pt-2 sm:pt-3 md:fixed md:right-5 md:top-5 md:w-auto md:p-0">
+          <div className="flex max-w-full flex-wrap items-center justify-end gap-1 sm:gap-1.5 rounded-full border border-amber-300/25 bg-[#040c20]/80 px-1.5 sm:px-2 py-1 sm:py-1.5 backdrop-blur-md shadow-lg">
           <button
             type="button"
             onClick={toggleAmbient}
@@ -228,11 +249,11 @@ export function App() {
             type="button"
             disabled={isSpinning || state.winners.length === 0}
             onClick={handleResetWinners}
-            title="Reset toàn bộ kết quả đã quay"
+            title="Reset toàn bộ kết quả để quay lại từ đầu"
             className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-rose-200 hover:bg-rose-500/15 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
           >
             <RotateCcw className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Reset</span>
+            <span className="hidden sm:inline">Reset quay lại</span>
           </button>
 
           <button
@@ -277,18 +298,19 @@ export function App() {
         onSpinStateChange={setIsSpinning}
         onCommitWinners={handleCommitWinners}
         onUndoLastRound={handleUndoLastRound}
+        onResetPrizeWinners={handleResetPrizeWinners}
         onCelebrate={() => setCelebrateKey((k) => k + 1)}
       />
 
       {/* Event Footer matching Backdrop */}
       {state.settings.showEventFooter && (
-        <footer className="relative z-10 pb-2.5 pt-0.5 text-center select-none">
-          <div className="inline-flex flex-wrap items-center justify-center gap-3 px-4 text-[11px] sm:text-xs font-medium text-amber-100/85">
+        <footer className="relative z-10 safe-pb pb-3 sm:pb-5 pt-1.5 sm:pt-3 text-center select-none">
+          <div className="inline-flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-1 px-3 sm:px-4 text-[10px] sm:text-xs font-medium text-amber-100/85">
             <span className="inline-flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5 text-amber-300" />
               <span>{state.settings.eventTimeText}</span>
             </span>
-            <span className="text-amber-300/45">|</span>
+            <span className="hidden sm:inline text-amber-300/45">|</span>
             <span className="inline-flex items-center gap-1.5">
               <MapPin className="h-3.5 w-3.5 text-amber-300" />
               <span>{state.settings.eventLocationText}</span>
