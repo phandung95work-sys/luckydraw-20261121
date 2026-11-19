@@ -1,4 +1,9 @@
 {
+  "source": "Danh sách khách và Agribank ăn tối.xlsx",
+  "total": 124,
+  "excluded": [
+    "Đặng Tùng Sơn – CMCTS"
+  ],
   "participants": [
     {
       "id": "p-dt-001",
@@ -403,7 +408,7 @@
       "id": "p-dt-058",
       "code": "DT-058",
       "name": "Nguyễn Mạnh Thường",
-      "department": "[Chưa ghi công ty]",
+      "department": "",
       "eligible": true
     },
     {
@@ -417,7 +422,7 @@
       "id": "p-dt-060",
       "code": "DT-060",
       "name": "Trần Hồng Anh",
-      "department": "[Chưa ghi công ty]",
+      "department": "",
       "eligible": true
     },
     {
@@ -868,73 +873,5 @@
       "department": "Trung tâm Quản lý Dữ liệu",
       "eligible": true
     }
-  ],
-  "prizes": [
-    {
-      "id": "prize-khuyen-khich",
-      "name": "GIẢI KHUYẾN KHÍCH",
-      "giftName": "Pin Sạc Dự Phòng Cao Cấp & Quà Lưu Niệm Agribank",
-      "giftValue": "1.000.000 VNĐ",
-      "quantity": 10,
-      "spinMode": "batch",
-      "colorAccent": "sapphire",
-      "order": 1
-    },
-    {
-      "id": "prize-ba",
-      "name": "GIẢI BA",
-      "giftName": "Tai Nghe Bluetooth Chống Ồn Cao Cấp",
-      "giftValue": "3.000.000 VNĐ",
-      "quantity": 5,
-      "spinMode": "batch",
-      "colorAccent": "emerald",
-      "order": 2
-    },
-    {
-      "id": "prize-nhi",
-      "name": "GIẢI NHÌ",
-      "giftName": "Đồng Hồ Thông Minh Apple Watch Series 10",
-      "giftValue": "10.000.000 VNĐ",
-      "quantity": 3,
-      "spinMode": "single",
-      "colorAccent": "crimson",
-      "order": 3
-    },
-    {
-      "id": "prize-nhat",
-      "name": "GIẢI NHẤT",
-      "giftName": "iPad Air M3 Wi-Fi 256GB",
-      "giftValue": "18.000.000 VNĐ",
-      "quantity": 2,
-      "spinMode": "single",
-      "colorAccent": "gold",
-      "order": 4
-    },
-    {
-      "id": "prize-dac-biet",
-      "name": "GIẢI ĐẶC BIỆT",
-      "giftName": "iPhone 17 Pro Max 256GB Titan Sa Mạc",
-      "giftValue": "35.000.000 VNĐ",
-      "quantity": 1,
-      "spinMode": "single",
-      "colorAccent": "gold",
-      "order": 5
-    }
-  ],
-  "winners": [],
-  "riggedAssignments": {},
-  "audio": {
-    "enabled": true,
-    "ambientEnabled": false,
-    "masterVolume": 0.72
-  },
-  "settings": {
-    "spinDurationSec": 15,
-    "allowRepeatWinners": false,
-    "backdropOpacity": 0,
-    "showEventFooter": true,
-    "eventTimeText": "Thời gian: 21-22/11/2026",
-    "eventLocationText": "Địa điểm: Hòa Bình",
-    "adminPin": ""
-  }
+  ]
 }

@@ -1,5 +1,5 @@
 import { AppState, Participant, Prize } from '../types';
-/** Danh sách thật ăn tối Gala – import từ Danh_sach_LuckyDraw_an_toi_import.xlsx (đã loại Đặng Tùng Sơn CMCSI/CMCIS). */
+/** Danh sách 124 người ăn tối Gala – đúng file `Danh sách khách và Agribank ăn tối.xlsx` (đã loại Đặng Tùng Sơn). */
 export const EVENT_PARTICIPANTS: Participant[] = [
   { id: 'p-dt-001', code: 'DT-001', name: 'Nguyễn Xuân Trường', department: 'F5 Networks', eligible: true },
   { id: 'p-dt-002', code: 'DT-002', name: 'Đoàn Quang Huy', department: 'Công ty cổ phần công nghệ số Thiên Phú', eligible: true },
@@ -58,9 +58,9 @@ export const EVENT_PARTICIPANTS: Participant[] = [
   { id: 'p-dt-055', code: 'DT-055', name: 'Nguyễn Ngọc Khánh', department: 'AM - ETC', eligible: true },
   { id: 'p-dt-056', code: 'DT-056', name: 'Phạm Văn Đức', department: 'Savis', eligible: true },
   { id: 'p-dt-057', code: 'DT-057', name: 'Hoàng Nguyên Vân', department: 'Savis', eligible: true },
-  { id: 'p-dt-058', code: 'DT-058', name: 'Nguyễn Mạnh Thường', department: '[Chưa ghi công ty]', eligible: true },
+  { id: 'p-dt-058', code: 'DT-058', name: 'Nguyễn Mạnh Thường', department: '', eligible: true },
   { id: 'p-dt-059', code: 'DT-059', name: 'Nguyễn Văn Lợi', department: 'Texco', eligible: true },
-  { id: 'p-dt-060', code: 'DT-060', name: 'Trần Hồng Anh', department: '[Chưa ghi công ty]', eligible: true },
+  { id: 'p-dt-060', code: 'DT-060', name: 'Trần Hồng Anh', department: '', eligible: true },
   { id: 'p-dt-061', code: 'DT-061', name: 'Mr Quốc', department: 'Juniper', eligible: true },
   { id: 'p-dt-062', code: 'DT-062', name: 'Trần Vũ', department: 'Nutanix', eligible: true },
   { id: 'p-dt-063', code: 'DT-063', name: 'Vũ Xuân Hiếu', department: 'Nutanix', eligible: true },
