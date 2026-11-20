@@ -1,6 +1,7 @@
 import React from 'react';
-import { Award, Download, Printer, RotateCcw, Trash2, Trophy, X } from 'lucide-react';
+import { Award, Download, FileSpreadsheet, Printer, RotateCcw, Trash2, Trophy, X } from 'lucide-react';
 import { Prize, WinnerRecord } from '../types';
+import { exportWinnersCsv, exportWinnersExcel } from '../utils/exportWinners';
 
 interface WinnersBoardProps {
   open: boolean;
@@ -22,32 +23,6 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
   if (!open) return null;
 
   const sortedPrizes = [...prizes].sort((a, b) => b.order - a.order);
-
-  const exportCsv = () => {
-    const header = ['STT', 'Giải thưởng', 'Phần quà', 'Mã số', 'Họ và tên', 'Đơn vị', 'Thời gian trúng'];
-    const rows = winners.map((w, idx) => [
-      String(idx + 1),
-      w.prizeName,
-      w.giftName,
-      w.participantCode,
-      w.participantName,
-      w.participantDepartment,
-      new Date(w.wonAt).toLocaleString('vi-VN'),
-    ]);
-    const csvContent =
-      '\uFEFF' +
-      [header, ...rows]
-        .map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
-        .join('\r\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `ket-qua-lucky-draw-agribank-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
   return (
     <div
@@ -83,12 +58,21 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
               <>
                 <button
                   type="button"
-                  onClick={exportCsv}
+                  onClick={() => exportWinnersExcel(winners, prizes)}
                   className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300/40 bg-amber-400/15 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-amber-200 hover:bg-amber-400/25 cursor-pointer"
+                  title="Xuất file Excel danh sách người trúng thưởng"
+                >
+                  <FileSpreadsheet className="h-3.5 w-3.5" />
+                  <span>Xuất Excel</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => exportWinnersCsv(winners)}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-slate-500/40 bg-slate-800/70 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-slate-200 hover:bg-slate-700 cursor-pointer"
+                  title="Xuất file CSV"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>CSV</span>
-                  <span className="hidden sm:inline">Excel</span>
                 </button>
                 <button
                   type="button"

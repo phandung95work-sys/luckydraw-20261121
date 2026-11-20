@@ -33,8 +33,11 @@ export interface WinnerRecord {
 }
 
 /**
- * Exact winner assignment per prizeId -> array of participantIds (or null for random).
- * Length matches prize.quantity.
+ * One entry per slot, length matches prize.quantity.
+ * - null: random among everyone still eligible
+ * - participant id: that exact person
+ * - "pool:guests": random guest outside the four Agribank units
+ * - "pool:dept:<department>": random inside that department
  */
 export type RiggedAssignments = Record<string, (string | null)[]>;
 

@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Participant, Prize, RiggedAssignments, WinnerRecord } from '../types';
 import { ceremonyAudio } from '../audio/ceremonyAudio';
+import { isPersonPin, resolveDrawWinners } from '../utils/slotRules';
 
 interface DrawStageProps {
   participants: Participant[];
@@ -172,11 +173,37 @@ export const DrawStage: React.FC<DrawStageProps> = ({
       const pins = riggedAssignments[prize.id] ?? [];
       for (let i = wonCount; i < prize.quantity; i++) {
         const pinnedId = pins[i];
-        if (pinnedId) set.add(pinnedId);
+        if (isPersonPin(pinnedId)) set.add(pinnedId);
       }
     }
     return set;
   }, [sortedPrizes, winners, riggedAssignments]);
+
+  const upcomingDraw = useMemo(() => {
+    if (!activePrize || remainingSlots <= 0) {
+      return { ok: false };
+    }
+    const drawCount = activePrize.spinMode === 'batch' ? remainingSlots : 1;
+    const startSlotIndex = winnersForPrize.length;
+    const pins = riggedAssignments[activePrize.id] ?? [];
+    const preview = resolveDrawWinners({
+      participants: availablePool,
+      reservedIds: reservedForFutureOtherSlots,
+      pins,
+      startSlotIndex,
+      drawCount,
+    });
+    return {
+      ok: preview.error === null && preview.winners.length === drawCount,
+    };
+  }, [
+    activePrize,
+    remainingSlots,
+    winnersForPrize.length,
+    riggedAssignments,
+    availablePool,
+    reservedForFutureOtherSlots,
+  ]);
 
   const buildReelForTarget = useCallback(
     (winner: Participant, length = 86): { items: Participant[]; targetIndex: number } => {
@@ -213,47 +240,15 @@ export const DrawStage: React.FC<DrawStageProps> = ({
     const startSlotIndex = winnersForPrize.length;
     const pins = riggedAssignments[activePrize.id] ?? [];
 
-    const usedInThisRound = new Set<string>();
-    const chosenWinners: { slotIndex: number; participant: Participant }[] = [];
-
-    // 1. Resolve pinned slots first so unpinned random slots won't take pinned winners
-    const slotNeedsRandom: number[] = [];
-    for (let k = 0; k < drawCount; k++) {
-      const slotIdx = startSlotIndex + k;
-      const pinnedId = pins[slotIdx];
-      if (pinnedId) {
-        const candidate = availablePool.find(
-          (p) => p.id === pinnedId && !usedInThisRound.has(p.id)
-        );
-        if (candidate) {
-          usedInThisRound.add(candidate.id);
-          chosenWinners.push({ slotIndex: slotIdx, participant: candidate });
-          continue;
-        }
-      }
-      slotNeedsRandom.push(slotIdx);
-    }
-
-    // 2. Resolve random slots
-    for (const slotIdx of slotNeedsRandom) {
-      let candidates = availablePool.filter(
-        (p) => !usedInThisRound.has(p.id) && !reservedForFutureOtherSlots.has(p.id)
-      );
-      if (candidates.length === 0) {
-        candidates = availablePool.filter((p) => !usedInThisRound.has(p.id));
-      }
-      if (candidates.length === 0) {
-        candidates = availablePool;
-      }
-      const picked = candidates[Math.floor(Math.random() * candidates.length)];
-      if (picked) {
-        usedInThisRound.add(picked.id);
-        chosenWinners.push({ slotIndex: slotIdx, participant: picked });
-      }
-    }
-
-    chosenWinners.sort((a, b) => a.slotIndex - b.slotIndex);
-    if (chosenWinners.length === 0) return;
+    const resolved = resolveDrawWinners({
+      participants: availablePool,
+      reservedIds: reservedForFutureOtherSlots,
+      pins,
+      startSlotIndex,
+      drawCount,
+    });
+    if (resolved.error || resolved.winners.length !== drawCount) return;
+    const chosenWinners = resolved.winners;
 
     const initialSlots: ReelSlotDisplay[] = chosenWinners.map((cw, idx) => {
       const reelLen = drawCount === 1 ? 92 : 68 + idx * 5;
@@ -380,7 +375,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
       ) {
         return;
       }
-      if (e.code === 'Space' && !isSpinning && remainingSlots > 0 && availablePool.length > 0) {
+      if (e.code === 'Space' && !isSpinning && remainingSlots > 0 && upcomingDraw.ok) {
         // Don't hijack Space if a modal is open
         if (document.querySelector('[data-modal-open="true"]')) return;
         e.preventDefault();
@@ -389,7 +384,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isSpinning, remainingSlots, availablePool.length, startDraw]);
+  }, [isSpinning, remainingSlots, upcomingDraw.ok, startDraw]);
 
   const handleUndoCurrentReveal = () => {
     if (isSpinning || lastRevealedBatch.length === 0) return;
@@ -696,9 +691,6 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                   <p className="text-lg font-bold text-emerald-200">
                     {activePrize.name} đã trao đủ {activePrize.quantity} giải!
                   </p>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Chọn giải khác ở phía trên, hoặc bấm <strong className="text-rose-200">Reset giải này</strong> để quay lại từ đầu.
-                  </p>
                 </div>
               )}
             </div>
@@ -710,7 +702,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
           {remainingSlots > 0 && (
             <button
               type="button"
-              disabled={isSpinning || availablePool.length === 0}
+              disabled={isSpinning || !upcomingDraw.ok}
               onClick={startDraw}
               className="gold-button relative inline-flex w-full sm:w-auto items-center justify-center gap-2 sm:gap-2.5 overflow-hidden rounded-full px-5 sm:px-7 py-2.5 text-sm sm:text-base font-extrabold tracking-wide disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
             >

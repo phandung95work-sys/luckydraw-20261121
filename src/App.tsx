@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
   Calendar,
+  FileSpreadsheet,
   MapPin,
   Maximize2,
   Minimize2,
@@ -19,8 +20,9 @@ import { BrandHeader } from './components/BrandHeader';
 import { DrawStage } from './components/DrawStage';
 import { WinnersBoard } from './components/WinnersBoard';
 import { AdminModal } from './components/AdminModal';
+import { exportWinnersExcel } from './utils/exportWinners';
 
-const STORAGE_KEY = 'agribank_gala_luckydraw_v7_no_bld_8';
+const STORAGE_KEY = 'agribank_gala_luckydraw_v8_co_cau_giai';
 
 function loadInitialState(): AppState {
   try {
@@ -243,6 +245,17 @@ export function App() {
                 {state.winners.length}
               </span>
             )}
+          </button>
+
+          <button
+            type="button"
+            disabled={isSpinning || state.winners.length === 0}
+            onClick={() => exportWinnersExcel(state.winners, state.prizes)}
+            title="Xuất file Excel danh sách người đã trúng thưởng"
+            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-emerald-200 hover:bg-emerald-500/15 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+          >
+            <FileSpreadsheet className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Xuất DS trúng</span>
           </button>
 
           <button

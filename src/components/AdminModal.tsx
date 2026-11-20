@@ -30,6 +30,13 @@ import {
 } from '../types';
 import { EVENT_PARTICIPANTS } from '../data/defaultData';
 import { parseParticipantsFromExcel } from '../utils/excelImport';
+import {
+  deptPool,
+  GUEST_POOL,
+  INTERNAL_UNITS,
+  isPersonPin,
+  poolLabel,
+} from '../utils/slotRules';
 
 interface AdminModalProps {
   open: boolean;
@@ -91,7 +98,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       const arr = state.riggedAssignments[prize.id] ?? [];
       for (let i = 0; i < prize.quantity; i++) {
         const pid = arr[i];
-        if (pid) {
+        if (isPersonPin(pid)) {
           const list = map.get(pid) ?? [];
           list.push(`${prize.name} (#${i + 1})`);
           map.set(pid, list);
@@ -936,7 +943,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     Chỉ định chính xác người trúng giải theo từng vị trí
                   </p>
                   <p className="text-[11px] sm:text-xs text-slate-300">
-                    Các ô để <strong>Ngẫu nhiên công bằng</strong> sẽ quay tự động. Ô được chỉ định sẽ vẫn chạy hiệu ứng quay {state.settings.spinDurationSec}s tự nhiên và dừng chính xác vào người đã chọn.
+                    Ô ngẫu nhiên quay trong cả danh sách còn lại. Ô theo đơn vị hoặc khách mời chỉ dừng trong nhóm đó. Ô chỉ định người vẫn quay {state.settings.spinDurationSec}s rồi dừng đúng người đã chọn. Mỗi người chỉ nhận một phần quà.
                   </p>
                 </div>
 
@@ -997,17 +1004,19 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                             (w) => w.slotIndex === slotIdx
                           );
                           const selectedId = arr[slotIdx] ?? '';
-                          const usage = selectedId ? pinnedUsageMap.get(selectedId) ?? [] : [];
+                          const personId = isPersonPin(selectedId) ? selectedId : '';
+                          const usage = personId ? pinnedUsageMap.get(personId) ?? [] : [];
                           const isDuplicatePin = usage.length > 1;
                           const isAlreadyWonElsewhere =
-                            Boolean(selectedId) &&
+                            Boolean(personId) &&
                             !alreadyWon &&
-                            wonIdSet.has(selectedId) &&
+                            wonIdSet.has(personId) &&
                             !state.settings.allowRepeatWinners;
 
-                          const selectedPerson = state.participants.find(
-                            (p) => p.id === selectedId
-                          );
+                          const selectedPerson = personId
+                            ? state.participants.find((p) => p.id === personId)
+                            : undefined;
+                          const groupLabel = poolLabel(selectedId);
 
                           return (
                             <div
@@ -1026,6 +1035,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                                   <span className="text-[10px] text-amber-200 font-semibold">
                                     Đã chỉ định
                                   </span>
+                                ) : groupLabel ? (
+                                  <span className="text-[10px] text-amber-200 font-semibold">
+                                    Nhóm: {groupLabel}
+                                  </span>
                                 ) : (
                                   <span className="text-[10px] text-slate-400">Ngẫu nhiên</span>
                                 )}
@@ -1043,7 +1056,13 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                                 }
                                 className="w-full rounded-lg border border-slate-700 bg-slate-950 px-2.5 py-1.5 text-xs text-white outline-none focus:border-amber-300 disabled:opacity-50"
                               >
-                                <option value="">🎲 [Ngẫu nhiên công bằng]</option>
+                                <option value="">🎲 Ngẫu nhiên (mọi người còn lại)</option>
+                                <option value={GUEST_POOL}>Khách mời (ngoài 4 đơn vị Agribank)</option>
+                                {INTERNAL_UNITS.map((unit) => (
+                                  <option key={unit} value={deptPool(unit)}>
+                                    Ngẫu nhiên trong: {unit}
+                                  </option>
+                                ))}
                                 {selectedPerson &&
                                   !candidateOptions.some((c) => c.id === selectedPerson.id) && (
                                     <option value={selectedPerson.id}>

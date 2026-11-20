@@ -1,4 +1,5 @@
-import { AppState, Participant, Prize } from '../types';
+import { AppState, Participant, Prize, RiggedAssignments } from '../types';
+import { deptPool, GUEST_POOL } from '../utils/slotRules';
 /** Danh sách 116 người ăn tối Gala (đã loại BLĐ + một số TT CNTT). */
 export const EVENT_PARTICIPANTS: Participant[] = [
   { id: 'p-dt-001', code: 'DT-001', name: 'Nguyễn Xuân Trường', department: 'F5 Networks', eligible: true },
@@ -123,9 +124,8 @@ export const DEFAULT_PRIZES: Prize[] = [
   {
     id: 'prize-khuyen-khich',
     name: 'GIẢI KHUYẾN KHÍCH',
-    giftName: 'Pin Sạc Dự Phòng Cao Cấp & Quà Lưu Niệm Agribank',
-    giftValue: '1.000.000 VNĐ',
-    quantity: 10,
+    giftName: 'Bộ phím chuột không dây',
+    quantity: 5,
     spinMode: 'batch',
     colorAccent: 'sapphire',
     order: 1,
@@ -133,50 +133,63 @@ export const DEFAULT_PRIZES: Prize[] = [
   {
     id: 'prize-ba',
     name: 'GIẢI BA',
-    giftName: 'Tai Nghe Bluetooth Chống Ồn Cao Cấp',
-    giftValue: '3.000.000 VNĐ',
+    giftName: 'Màn hình',
     quantity: 5,
-    spinMode: 'batch',
+    spinMode: 'single',
     colorAccent: 'emerald',
     order: 2,
   },
   {
-    id: 'prize-nhi',
+    id: 'prize-nhi-vot',
     name: 'GIẢI NHÌ',
-    giftName: 'Đồng Hồ Thông Minh Apple Watch Series 10',
-    giftValue: '10.000.000 VNĐ',
+    giftName: 'Vợt Pickleball',
     quantity: 3,
     spinMode: 'single',
     colorAccent: 'crimson',
     order: 3,
   },
   {
-    id: 'prize-nhat',
-    name: 'GIẢI NHẤT',
-    giftName: 'iPad Air M3 Wi-Fi 256GB',
-    giftValue: '18.000.000 VNĐ',
+    id: 'prize-nhi-mayin',
+    name: 'GIẢI NHÌ — MÁY IN',
+    giftName: 'Máy in HP Laser MFP 139fnw (A0NU1A)',
     quantity: 2,
     spinMode: 'single',
-    colorAccent: 'gold',
+    colorAccent: 'crimson',
     order: 4,
   },
   {
     id: 'prize-dac-biet',
     name: 'GIẢI ĐẶC BIỆT',
-    giftName: 'iPhone 17 Pro Max 256GB Titan Sa Mạc',
-    giftValue: '35.000.000 VNĐ',
-    quantity: 1,
-    spinMode: 'single',
+    giftName: 'Điện thoại',
+    quantity: 2,
+    spinMode: 'batch',
     colorAccent: 'gold',
     order: 5,
   },
 ];
 
+/**
+ * Cơ cấu chỉ định. Người được ghim không bị bốc ở các lượt ngẫu nhiên khác.
+ * Giải Ba: 4 đơn vị nội bộ, lượt cuối là khách mời ngoài cả 4 đơn vị đó.
+ */
+export const DEFAULT_RIGGED_ASSIGNMENTS: RiggedAssignments = {
+  'prize-ba': [
+    deptPool('Ban Ngân hàng Số'),
+    deptPool('Ban Công nghệ'),
+    deptPool('Trung tâm Quản lý Dữ liệu'),
+    deptPool('Trung tâm CNTT'),
+    GUEST_POOL,
+  ],
+  'prize-nhi-vot': ['p-ag-035', null, null],
+  'prize-nhi-mayin': ['p-dt-017', GUEST_POOL],
+  'prize-dac-biet': ['p-ag-010', null],
+};
+
 export const DEFAULT_APP_STATE: AppState = {
   participants: EVENT_PARTICIPANTS.map((p) => ({ ...p })),
   prizes: DEFAULT_PRIZES,
   winners: [],
-  riggedAssignments: {},
+  riggedAssignments: DEFAULT_RIGGED_ASSIGNMENTS,
   audio: {
     enabled: true,
     ambientEnabled: false,
