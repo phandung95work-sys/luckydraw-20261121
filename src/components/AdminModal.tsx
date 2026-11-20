@@ -1020,6 +1020,9 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                               <div className="mb-1.5 flex items-center justify-between text-[11px]">
                                 <span className="font-bold text-amber-300">
                                   Người trúng #{slotIdx + 1}
+                                  {prize.slotGifts?.[slotIdx]
+                                    ? ` · ${prize.slotGifts[slotIdx]}`
+                                    : ''}
                                 </span>
                                 {alreadyWon ? (
                                   <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-300">

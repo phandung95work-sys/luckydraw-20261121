@@ -121,7 +121,7 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
                   <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-amber-300/15 pb-2">
                     <div>
                       <h3 className="text-sm sm:text-base font-bold text-amber-300">
-                        {prize.name} — {prize.giftName}
+                        {prize.slotGifts ? prize.name : `${prize.name} — ${prize.giftName}`}
                       </h3>
                     </div>
                     <span className="rounded-full bg-amber-400/15 px-2.5 py-0.5 text-xs font-semibold text-amber-200">
@@ -148,6 +148,7 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
                             </span>
                           </div>
                           <p className="mt-0.5 truncate text-[11px] sm:text-xs text-slate-400">
+                            {prize.slotGifts ? `${w.giftName} · ` : ''}
                             {w.participantDepartment}
                           </p>
                         </div>

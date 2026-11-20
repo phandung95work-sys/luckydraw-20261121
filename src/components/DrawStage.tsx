@@ -9,7 +9,7 @@ import {
   Sparkles,
   Users,
 } from 'lucide-react';
-import { Participant, Prize, RiggedAssignments, WinnerRecord } from '../types';
+import { giftForSlot, Participant, Prize, RiggedAssignments, WinnerRecord } from '../types';
 import { ceremonyAudio } from '../audio/ceremonyAudio';
 import { isPersonPin, resolveDrawWinners } from '../utils/slotRules';
 
@@ -326,7 +326,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
           id: `win-${Date.now()}-${cw.slotIndex}-${Math.random().toString(36).slice(2, 6)}`,
           prizeId: activePrize.id,
           prizeName: activePrize.name,
-          giftName: activePrize.giftName,
+          giftName: giftForSlot(activePrize, cw.slotIndex),
           participantId: cw.participant.id,
           participantCode: cw.participant.code,
           participantName: cw.participant.name,
@@ -406,6 +406,10 @@ export const DrawStage: React.FC<DrawStageProps> = ({
   }
 
   const progressPct = Math.min(100, (elapsedSec / Math.max(1, roundDurationSec)) * 100);
+  const stageGiftName =
+    showRevealCard && lastRevealedBatch.length === 1
+      ? lastRevealedBatch[0].giftName
+      : giftForSlot(activePrize, Math.min(winnersForPrize.length, activePrize.quantity - 1));
   const phaseLabel =
     progressPct < 15
       ? 'Khởi động vòng quay may mắn...'
@@ -477,7 +481,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
           </div>
 
           <h3 className="text-base sm:text-xl md:text-2xl font-bold text-white tracking-wide drop-shadow leading-snug px-1">
-            {activePrize.giftName}
+            {stageGiftName}
           </h3>
           {activePrize.giftValue && (
             <p className="text-[11px] sm:text-xs md:text-sm font-medium text-amber-300/90">

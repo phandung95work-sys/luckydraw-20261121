@@ -8,12 +8,18 @@ export interface Participant {
 
 export type SpinMode = 'batch' | 'single';
 
+export function giftForSlot(prize: Prize, slotIndex: number): string {
+  return prize.slotGifts?.[slotIndex] || prize.giftName;
+}
+
 export interface Prize {
   id: string;
   name: string;
   giftName: string;
   giftValue?: string;
   quantity: number;
+  /** Phần quà từng suất khi một giải gồm nhiều món khác nhau. */
+  slotGifts?: string[];
   spinMode: SpinMode;
   colorAccent: 'gold' | 'crimson' | 'emerald' | 'sapphire';
   order: number;
