@@ -472,9 +472,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
             <span className="truncate max-w-[10rem] sm:max-w-none">{activePrize.name}</span>
             <span className="text-amber-300/60">•</span>
             <span className="whitespace-nowrap">
-              {activePrize.spinMode === 'batch' && remainingSlots > 1
-                ? `Quay ${remainingSlots} giải cùng lúc`
-                : `Còn ${remainingSlots} / ${activePrize.quantity} giải`}
+              {`Còn ${remainingSlots} / ${activePrize.quantity} giải`}
             </span>
           </div>
 
@@ -677,16 +675,6 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                   <p className="text-base sm:text-xl font-bold text-amber-100">
                     Sẵn sàng tìm chủ nhân may mắn
                   </p>
-                  <p className="text-xs sm:text-sm text-slate-300/85 leading-relaxed">
-                    Tổng số người tham gia hợp lệ:{' '}
-                    <span className="font-bold text-amber-300">
-                      {availablePool.length}
-                    </span>{' '}
-                    người • Thời gian quay:{' '}
-                    <span className="font-bold text-amber-300">
-                      {roundDurationSec} giây
-                    </span>
-                  </p>
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-3 py-1">
@@ -725,7 +713,6 @@ export const DrawStage: React.FC<DrawStageProps> = ({
             <button
               type="button"
               onClick={handleUndoCurrentReveal}
-              title="Hủy kết quả lượt vừa quay để quay lại"
               className="inline-flex items-center gap-2 rounded-full border border-rose-400/40 bg-rose-950/50 px-4 py-2 text-xs sm:text-sm font-semibold text-rose-200 hover:bg-rose-900/60 transition cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5" />
@@ -737,7 +724,6 @@ export const DrawStage: React.FC<DrawStageProps> = ({
             <button
               type="button"
               onClick={() => onResetPrizeWinners(activePrize.id)}
-              title="Xóa kết quả giải đang chọn để quay lại từ đầu"
               className="inline-flex items-center gap-2 rounded-full border border-rose-400/50 bg-rose-950/60 px-4 py-2 text-xs sm:text-sm font-semibold text-rose-100 hover:bg-rose-900/70 transition cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5" />

@@ -541,9 +541,6 @@ export const AdminModal: React.FC<AdminModalProps> = ({
           {activeTab === 'prizes' && (
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-xs sm:text-sm text-slate-300">
-                  Cấu hình tên giải, phần quà, số lượng người trúng giải và chế độ quay cho từng hạng mục.
-                </p>
                 <button
                   type="button"
                   onClick={addPrize}
@@ -645,7 +642,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                             type="button"
                             disabled={idx === 0}
                             onClick={() => movePrize(prize.id, -1)}
-                            title="Di chuyển lên"
+                            aria-label="Di chuyển lên"
                             className="rounded-lg border border-slate-700 bg-slate-900 p-1.5 text-slate-300 hover:text-white disabled:opacity-35 cursor-pointer"
                           >
                             <ArrowUp className="h-3.5 w-3.5" />
@@ -654,7 +651,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                             type="button"
                             disabled={idx === sortedPrizes.length - 1}
                             onClick={() => movePrize(prize.id, 1)}
-                            title="Di chuyển xuống"
+                            aria-label="Di chuyển xuống"
                             className="rounded-lg border border-slate-700 bg-slate-900 p-1.5 text-slate-300 hover:text-white disabled:opacity-35 cursor-pointer"
                           >
                             <ArrowDown className="h-3.5 w-3.5" />
@@ -663,7 +660,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                             type="button"
                             disabled={sortedPrizes.length <= 1}
                             onClick={() => deletePrize(prize.id)}
-                            title="Xóa giải"
+                            aria-label="Xóa giải"
                             className="rounded-lg border border-rose-500/30 bg-rose-950/40 p-1.5 text-rose-300 hover:bg-rose-900/60 disabled:opacity-35 cursor-pointer"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
@@ -940,10 +937,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 <div className="space-y-0.5">
                   <p className="text-xs sm:text-sm font-bold text-amber-200 flex items-center gap-1.5">
                     <Target className="h-4 w-4" />
-                    Chỉ định chính xác người trúng giải theo từng vị trí
-                  </p>
-                  <p className="text-[11px] sm:text-xs text-slate-300">
-                    Ô ngẫu nhiên quay trong cả danh sách còn lại. Ô theo đơn vị hoặc khách mời chỉ dừng trong nhóm đó. Ô chỉ định người vẫn quay {state.settings.spinDurationSec}s rồi dừng đúng người đã chọn. Mỗi người chỉ nhận một phần quà.
+                    Chỉ định người trúng theo từng vị trí
                   </p>
                 </div>
 
@@ -1110,7 +1104,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
 
                   <div>
                     <label className="mb-1 flex justify-between text-xs text-slate-300">
-                      <span>Thời gian lượt quay đơn (Giải Khuyến khích: 15 giây)</span>
+                      <span>Thời gian mỗi lượt quay</span>
                       <span className="font-bold text-amber-300">
                         {state.settings.spinDurationSec} giây
                       </span>

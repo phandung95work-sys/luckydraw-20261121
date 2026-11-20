@@ -60,7 +60,6 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
                   type="button"
                   onClick={() => exportWinnersExcel(winners, prizes)}
                   className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300/40 bg-amber-400/15 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-amber-200 hover:bg-amber-400/25 cursor-pointer"
-                  title="Xuất file Excel danh sách người trúng thưởng"
                 >
                   <FileSpreadsheet className="h-3.5 w-3.5" />
                   <span>Xuất Excel</span>
@@ -69,7 +68,6 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
                   type="button"
                   onClick={() => exportWinnersCsv(winners)}
                   className="inline-flex items-center gap-1.5 rounded-lg border border-slate-500/40 bg-slate-800/70 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-slate-200 hover:bg-slate-700 cursor-pointer"
-                  title="Xuất file CSV"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>CSV</span>
@@ -109,9 +107,6 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
               <Award className="mx-auto h-12 w-12 text-amber-300/40 mb-3" />
               <p className="text-base font-medium text-slate-200">
                 Chưa có kết quả quay thưởng nào
-              </p>
-              <p className="text-xs mt-1">
-                Hãy bắt đầu quay số trên sân khấu để ghi nhận danh sách trúng giải.
               </p>
             </div>
           ) : (
@@ -160,7 +155,7 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
                         <button
                           type="button"
                           onClick={() => onRemoveWinner(w.id)}
-                          title="Xóa kết quả này"
+                          aria-label="Xóa kết quả này"
                           className="ml-2 rounded p-1.5 text-slate-400 hover:bg-rose-950/70 hover:text-rose-300 cursor-pointer"
                         >
                           <Trash2 className="h-4 w-4" />

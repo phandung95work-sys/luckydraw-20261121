@@ -203,11 +203,7 @@ export function App() {
           <button
             type="button"
             onClick={toggleAmbient}
-            title={
-              state.audio.ambientEnabled
-                ? 'Tắt nhạc nền chờ Gala'
-                : 'Bật nhạc nền chờ Gala thanh lịch'
-            }
+            aria-label="Nhạc nền"
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition cursor-pointer ${
               state.audio.ambientEnabled && state.audio.enabled
                 ? 'bg-amber-400/20 text-amber-200 border border-amber-300/40'
@@ -221,7 +217,7 @@ export function App() {
           <button
             type="button"
             onClick={toggleSound}
-            title={state.audio.enabled ? 'Tắt toàn bộ âm thanh' : 'Bật âm thanh'}
+            aria-label={state.audio.enabled ? 'Tắt âm thanh' : 'Bật âm thanh'}
             className="rounded-full p-1.5 text-slate-300 hover:bg-slate-800/80 hover:text-amber-200 transition cursor-pointer"
           >
             {state.audio.enabled ? (
@@ -235,7 +231,7 @@ export function App() {
             type="button"
             disabled={isSpinning}
             onClick={() => setShowWinnersBoard(true)}
-            title="Bảng Vinh Danh Trúng Giải"
+            aria-label="Vinh danh"
             className="relative inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-amber-200 hover:bg-amber-400/15 disabled:opacity-50 transition cursor-pointer"
           >
             <Trophy className="h-3.5 w-3.5 text-amber-300" />
@@ -251,7 +247,7 @@ export function App() {
             type="button"
             disabled={isSpinning || state.winners.length === 0}
             onClick={() => exportWinnersExcel(state.winners, state.prizes)}
-            title="Xuất file Excel danh sách người đã trúng thưởng"
+            aria-label="Xuất danh sách trúng"
             className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-emerald-200 hover:bg-emerald-500/15 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
           >
             <FileSpreadsheet className="h-3.5 w-3.5" />
@@ -262,7 +258,7 @@ export function App() {
             type="button"
             disabled={isSpinning || state.winners.length === 0}
             onClick={handleResetWinners}
-            title="Reset toàn bộ kết quả để quay lại từ đầu"
+            aria-label="Reset quay lại"
             className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-rose-200 hover:bg-rose-500/15 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
           >
             <RotateCcw className="h-3.5 w-3.5" />
@@ -272,7 +268,7 @@ export function App() {
           <button
             type="button"
             onClick={toggleFullscreen}
-            title={isFullscreen ? 'Thoát toàn màn hình' : 'Trình chiếu toàn màn hình'}
+            aria-label={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
             className="rounded-full p-1.5 text-slate-300 hover:bg-slate-800/80 hover:text-white transition cursor-pointer"
           >
             {isFullscreen ? (
@@ -286,7 +282,7 @@ export function App() {
             type="button"
             disabled={isSpinning}
             onClick={() => setShowAdminModal(true)}
-            title="Cấu hình giải thưởng, danh sách & người trúng (Ctrl+Shift+A)"
+            aria-label="Cấu hình"
             className="rounded-full p-1.5 text-slate-300 hover:bg-slate-800/80 hover:text-amber-200 disabled:opacity-50 transition cursor-pointer"
           >
             <Settings className="h-4 w-4" />
