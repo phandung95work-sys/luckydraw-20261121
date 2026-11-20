@@ -189,7 +189,8 @@ export function App() {
   };
 
   return (
-    <div className="relative flex min-h-app flex-col justify-between gap-1 overflow-x-hidden overflow-y-auto safe-pt safe-pb">
+    <div className="stage-viewport">
+    <div className="stage-frame relative flex flex-col justify-between gap-1 overflow-x-hidden overflow-y-auto safe-pt safe-pb">
       <CosmicBackdrop
         isSpinning={isSpinning}
         celebrateKey={celebrateKey}
@@ -198,7 +199,7 @@ export function App() {
 
       {/* Discreet Floating Stage Control Bar */}
       {!hideControls && (
-        <div className="relative z-30 flex w-full justify-end safe-px px-2 sm:px-3 pt-2 sm:pt-3 md:fixed md:right-5 md:top-5 md:w-auto md:p-0">
+        <div className="relative z-30 flex w-full justify-end safe-px px-2 sm:px-3 pt-2 sm:pt-3 md:absolute md:right-4 md:top-3 md:w-auto md:p-0">
           <div className="flex max-w-full flex-wrap items-center justify-end gap-1 sm:gap-1.5 rounded-full border border-amber-300/25 bg-[#040c20]/80 px-1.5 sm:px-2 py-1 sm:py-1.5 backdrop-blur-md shadow-lg">
           <button
             type="button"
@@ -349,6 +350,7 @@ export function App() {
           setStageKey((k) => k + 1);
         }}
       />
+    </div>
     </div>
   );
 }
