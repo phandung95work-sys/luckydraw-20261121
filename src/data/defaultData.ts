@@ -142,19 +142,21 @@ export const DEFAULT_PRIZES: Prize[] = [
   {
     id: 'prize-nhi',
     name: 'GIẢI NHÌ',
-    giftName: 'Vợt Pickleball · Máy in HP · Máy scan HP',
-    slotGifts: [
-      'Vợt Pickleball',
-      'Vợt Pickleball',
-      'Vợt Pickleball',
-      'Máy in HP Laser MFP 139fnw (A0NU1A)',
-      'Máy in HP Laser MFP 139fnw (A0NU1A)',
-      'Máy scan HP',
-    ],
-    quantity: 6,
+    giftName: 'Vợt Pickleball',
+    quantity: 3,
     spinMode: 'single',
     colorAccent: 'crimson',
     order: 3,
+  },
+  {
+    id: 'prize-nhat',
+    name: 'GIẢI NHẤT',
+    giftName: 'Máy in HP · Máy scan HP',
+    slotGifts: ['Máy in HP Laser MFP 139fnw (A0NU1A)', 'Máy scan HP'],
+    quantity: 2,
+    spinMode: 'single',
+    colorAccent: 'gold',
+    order: 4,
   },
   {
     id: 'prize-dac-biet',
@@ -163,13 +165,14 @@ export const DEFAULT_PRIZES: Prize[] = [
     quantity: 2,
     spinMode: 'batch',
     colorAccent: 'gold',
-    order: 4,
+    order: 5,
   },
 ];
 
 /**
  * Cơ cấu chỉ định. Người được ghim không bị bốc ở các lượt ngẫu nhiên khác.
- * Giải Nhì là một cột: 3 vợt, 2 máy in, 1 máy scan. Máy in đầu của Trương Tuấn Thành.
+ * Giải Nhì: 3 vợt pickleball, quay ngẫu nhiên.
+ * Giải Nhất: máy in HP 139fnw của Trương Tuấn Thành, máy scan HP quay ngẫu nhiên.
  * Giải Ba: 4 đơn vị nội bộ, lượt cuối là khách mời ngoài cả 4 đơn vị đó.
  */
 export const DEFAULT_RIGGED_ASSIGNMENTS: RiggedAssignments = {
@@ -180,7 +183,8 @@ export const DEFAULT_RIGGED_ASSIGNMENTS: RiggedAssignments = {
     deptPool('Trung tâm CNTT'),
     GUEST_POOL,
   ],
-  'prize-nhi': [null, null, null, 'p-dt-017', null, null],
+  'prize-nhi': [null, null, null],
+  'prize-nhat': ['p-dt-017', null],
   'prize-dac-biet': ['p-ag-010', null],
 };
 
