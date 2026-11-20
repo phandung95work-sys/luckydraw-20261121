@@ -196,7 +196,7 @@ export const DEFAULT_APP_STATE: AppState = {
     masterVolume: 0.72,
   },
   settings: {
-    spinDurationSec: 15,
+    spinDurationSec: 10,
     allowRepeatWinners: false,
     backdropOpacity: 0,
     showEventFooter: true,

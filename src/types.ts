@@ -51,7 +51,7 @@ export interface AudioConfig {
 }
 
 export interface EventSettings {
-  spinDurationSec: number; // default 15
+  spinDurationSec: number; // lượt đơn, mặc định 10. Giải Khuyến khích cố định 15 giây.
   allowRepeatWinners: boolean; // default false
   backdropOpacity: number; // 0 to 0.65 subtle blend of original backdrop
   showEventFooter: boolean;

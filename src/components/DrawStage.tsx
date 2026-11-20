@@ -138,6 +138,9 @@ export const DrawStage: React.FC<DrawStageProps> = ({
     ? Math.max(0, activePrize.quantity - winnersForPrize.length)
     : 0;
 
+  /** Giải Khuyến khích quay cả loạt 15 giây. Các lượt còn lại dùng thời gian lượt đơn. */
+  const roundDurationSec = activePrize?.id === 'prize-khuyen-khich' ? 15 : spinDurationSec;
+
   // Animation state
   const [elapsedSec, setElapsedSec] = useState(0);
   const [reelSlots, setReelSlots] = useState<ReelSlotDisplay[]>([]);
@@ -271,15 +274,15 @@ export const DrawStage: React.FC<DrawStageProps> = ({
     lastTickTimeRef.current = 0;
 
     onSpinStateChange(true);
-    const durationMs = Math.max(3, spinDurationSec) * 1000;
-    ceremonyAudio.startSpinCeremony(spinDurationSec);
+    const durationMs = Math.max(3, roundDurationSec) * 1000;
+    ceremonyAudio.startSpinCeremony(roundDurationSec);
 
     const startTime = performance.now();
 
     const step = (now: number) => {
       const elapsed = now - startTime;
       const rawT = Math.min(1, elapsed / durationMs);
-      setElapsedSec(Math.min(spinDurationSec, elapsed / 1000));
+      setElapsedSec(Math.min(roundDurationSec, elapsed / 1000));
 
       const isBatch = initialSlots.length > 1;
       let leadOffset = 0;
@@ -352,7 +355,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
     reservedForFutureOtherSlots,
     buildReelForTarget,
     onSpinStateChange,
-    spinDurationSec,
+    roundDurationSec,
     onCommitWinners,
     onCelebrate,
   ]);
@@ -402,7 +405,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
     );
   }
 
-  const progressPct = Math.min(100, (elapsedSec / Math.max(1, spinDurationSec)) * 100);
+  const progressPct = Math.min(100, (elapsedSec / Math.max(1, roundDurationSec)) * 100);
   const phaseLabel =
     progressPct < 15
       ? 'Khởi động vòng quay may mắn...'
@@ -652,7 +655,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                 <div className="mb-1 flex items-center justify-between text-xs font-medium text-amber-200/90">
                   <span>{phaseLabel}</span>
                   <span className="font-mono font-bold text-amber-300">
-                    {elapsedSec.toFixed(1)}s / {spinDurationSec.toFixed(1)}s
+                    {elapsedSec.toFixed(1)}s / {roundDurationSec.toFixed(1)}s
                   </span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-slate-900/90 p-0.5 border border-amber-300/25">
@@ -681,7 +684,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                     </span>{' '}
                     người • Thời gian quay:{' '}
                     <span className="font-bold text-amber-300">
-                      {spinDurationSec} giây
+                      {roundDurationSec} giây
                     </span>
                   </p>
                 </div>

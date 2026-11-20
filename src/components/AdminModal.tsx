@@ -1110,7 +1110,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
 
                   <div>
                     <label className="mb-1 flex justify-between text-xs text-slate-300">
-                      <span>Thời gian mỗi lượt quay</span>
+                      <span>Thời gian lượt quay đơn (Giải Khuyến khích: 15 giây)</span>
                       <span className="font-bold text-amber-300">
                         {state.settings.spinDurationSec} giây
                       </span>
