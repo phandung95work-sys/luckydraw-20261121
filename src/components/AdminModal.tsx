@@ -615,7 +615,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                             }
                             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs sm:text-sm text-white outline-none focus:border-amber-300"
                           >
-                            <option value="single">Quay từng người (15s/lượt)</option>
+                            <option value="single">Quay từng người (10s/lượt)</option>
                             <option value="batch">Quay 1 lần ra tất cả</option>
                           </select>
                         </div>

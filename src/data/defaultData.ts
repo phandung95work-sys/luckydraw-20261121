@@ -124,7 +124,7 @@ export const DEFAULT_PRIZES: Prize[] = [
   {
     id: 'prize-khuyen-khich',
     name: 'GIẢI KHUYẾN KHÍCH',
-    giftName: 'Bộ phím chuột không dây',
+    giftName: 'Bộ phím chuột không dây Lenovo',
     quantity: 5,
     spinMode: 'batch',
     colorAccent: 'sapphire',
@@ -133,7 +133,7 @@ export const DEFAULT_PRIZES: Prize[] = [
   {
     id: 'prize-ba',
     name: 'GIẢI BA',
-    giftName: 'Màn hình',
+    giftName: 'Màn hình Lenovo',
     quantity: 5,
     spinMode: 'single',
     colorAccent: 'emerald',
@@ -158,18 +158,28 @@ export const DEFAULT_PRIZES: Prize[] = [
     order: 4,
   },
   {
+    id: 'prize-nhi-scan',
+    name: 'GIẢI NHÌ — MÁY SCAN',
+    giftName: 'Máy scan HP',
+    quantity: 1,
+    spinMode: 'single',
+    colorAccent: 'crimson',
+    order: 5,
+  },
+  {
     id: 'prize-dac-biet',
     name: 'GIẢI ĐẶC BIỆT',
     giftName: 'Điện thoại',
     quantity: 2,
     spinMode: 'batch',
     colorAccent: 'gold',
-    order: 5,
+    order: 6,
   },
 ];
 
 /**
  * Cơ cấu chỉ định. Người được ghim không bị bốc ở các lượt ngẫu nhiên khác.
+ * Giải Nhì: một máy in của Trương Tuấn Thành. Vợt, máy in còn lại và máy scan quay ngẫu nhiên.
  * Giải Ba: 4 đơn vị nội bộ, lượt cuối là khách mời ngoài cả 4 đơn vị đó.
  */
 export const DEFAULT_RIGGED_ASSIGNMENTS: RiggedAssignments = {
@@ -180,8 +190,9 @@ export const DEFAULT_RIGGED_ASSIGNMENTS: RiggedAssignments = {
     deptPool('Trung tâm CNTT'),
     GUEST_POOL,
   ],
-  'prize-nhi-vot': ['p-ag-035', null, null],
-  'prize-nhi-mayin': ['p-dt-017', GUEST_POOL],
+  'prize-nhi-vot': [null, null, null],
+  'prize-nhi-mayin': ['p-dt-017', null],
+  'prize-nhi-scan': [null],
   'prize-dac-biet': ['p-ag-010', null],
 };
 
