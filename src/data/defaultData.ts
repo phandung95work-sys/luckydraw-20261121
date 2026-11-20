@@ -163,7 +163,7 @@ export const DEFAULT_PRIZES: Prize[] = [
     name: 'GIẢI ĐẶC BIỆT',
     giftName: 'Điện thoại',
     quantity: 2,
-    spinMode: 'batch',
+    spinMode: 'single',
     colorAccent: 'gold',
     order: 5,
   },
@@ -172,7 +172,8 @@ export const DEFAULT_PRIZES: Prize[] = [
 /**
  * Cơ cấu chỉ định. Người được ghim không bị bốc ở các lượt ngẫu nhiên khác.
  * Giải Nhì: 3 vợt pickleball, quay ngẫu nhiên.
- * Giải Nhất: máy in HP 139fnw của Trương Tuấn Thành, máy scan HP quay ngẫu nhiên.
+ * Giải Nhất: 2 lượt. Máy in HP 139fnw của Trương Tuấn Thành, rồi máy scan HP ngẫu nhiên.
+ * Giải Đặc biệt: 2 lượt. Điện thoại đầu của Trần Thị Lệ Dung, điện thoại sau ngẫu nhiên.
  * Giải Ba: 4 đơn vị nội bộ, lượt cuối là khách mời ngoài cả 4 đơn vị đó.
  */
 export const DEFAULT_RIGGED_ASSIGNMENTS: RiggedAssignments = {
