@@ -158,6 +158,7 @@ const GUEST_LEADER_TITLES: Record<string, string> = {
   'Đặng Kim Dũng': 'Giám đốc',
   'Nguyễn Văn Giáp': 'Tổng Giám đốc',
   'Trần Thu Hiền': 'Giám đốc dự án',
+  'Phạm Văn Đức': 'Phó Chủ tịch',
 };
 
 /** Chức danh Agribank theo danh sách công đoàn T5/2026, gắn theo mã để khỏi trùng tên. */
