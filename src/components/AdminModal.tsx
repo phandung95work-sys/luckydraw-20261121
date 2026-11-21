@@ -1199,7 +1199,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h4 className="flex items-center gap-2 text-sm font-bold text-amber-200">
                     <Music className="h-4 w-4" />
-                    Âm nhạc trang trọng (Nhạc hòa tấu tích hợp &amp; Nhạc tùy chọn)
+                    Nhạc quay sổ xố và nhạc trúng vui (tích hợp hoặc file tùy chọn)
                   </h4>
 
                   <div className="flex items-center gap-4 text-xs">
@@ -1246,8 +1246,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   {(
                     [
                       ['customAmbientUrl', 'Nhạc nền chờ (tùy chọn MP3)'],
-                      ['customSpinUrl', 'Nhạc quay 15s (tùy chọn MP3)'],
-                      ['customWinUrl', 'Nhạc vinh danh (tùy chọn MP3)'],
+                      ['customSpinUrl', 'Nhạc lúc quay (tùy chọn MP3)'],
+                      ['customWinUrl', 'Nhạc khi trúng (tùy chọn MP3)'],
                     ] as const
                   ).map(([key, label]) => (
                     <div
@@ -1278,7 +1278,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                       <p className="text-[10px] text-slate-400">
                         {state.audio[key]
                           ? 'Đang dùng file nhạc tải lên'
-                          : 'Đang dùng nhạc hòa tấu tích hợp'}
+                          : 'Đang dùng nhạc tích hợp'}
                       </p>
                     </div>
                   ))}
