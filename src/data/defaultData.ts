@@ -208,6 +208,11 @@ const AGRIBANK_TITLES: Record<string, string> = {
   'AG-043': 'Trưởng nghiệp vụ',
   'AG-044': 'Phó Trưởng nghiệp vụ',
   'AG-045': 'Phó Trưởng nghiệp vụ',
+  'AG-046': 'Giám đốc',
+  'AG-047': 'Trưởng phòng',
+  'AG-048': 'Trưởng phòng',
+  'AG-049': 'Trưởng phòng',
+  'AG-050': 'Phó trưởng phòng',
 };
 
 export const EVENT_PARTICIPANTS: Participant[] = EVENT_PARTICIPANT_ROWS.map((person) => {
