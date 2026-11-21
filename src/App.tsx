@@ -22,7 +22,7 @@ import { WinnersBoard } from './components/WinnersBoard';
 import { AdminModal } from './components/AdminModal';
 import { exportWinnersExcel } from './utils/exportWinners';
 
-const STORAGE_KEY = 'agribank_gala_luckydraw_v19_ttdl_chuc_vu';
+const STORAGE_KEY = 'agribank_gala_luckydraw_v20_giai_nhi_2';
 
 function loadInitialState(): AppState {
   try {

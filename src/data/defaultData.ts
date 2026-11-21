@@ -245,7 +245,7 @@ export const DEFAULT_PRIZES: Prize[] = [
     id: 'prize-nhi',
     name: 'GIẢI NHÌ',
     giftName: 'Vợt Pickleball',
-    quantity: 3,
+    quantity: 2,
     spinMode: 'single',
     colorAccent: 'crimson',
     order: 3,
@@ -273,7 +273,7 @@ export const DEFAULT_PRIZES: Prize[] = [
 
 /**
  * Cơ cấu chỉ định. Người được ghim không bị bốc ở các lượt ngẫu nhiên khác.
- * Giải Nhì: 3 vợt. Suất đầu của Nguyễn Văn Tùng, Trung tâm CNTT. Hai suất sau ngẫu nhiên.
+ * Giải Nhì: 2 vợt. Suất đầu của Nguyễn Văn Tùng, Trung tâm CNTT. Suất sau ngẫu nhiên.
  * Giải Nhất: 2 lượt. Máy in HP 139fnw của Trương Tuấn Thành, rồi máy scan HP ngẫu nhiên.
  * Giải Đặc biệt: 2 lượt. Điện thoại đầu của Trần Thị Lệ Dung, điện thoại sau ngẫu nhiên.
  * Giải Ba: 4 đơn vị nội bộ, lượt cuối là khách mời ngoài cả 4 đơn vị đó.
@@ -286,7 +286,7 @@ export const DEFAULT_RIGGED_ASSIGNMENTS: RiggedAssignments = {
     deptPool('Trung tâm CNTT'),
     GUEST_POOL,
   ],
-  'prize-nhi': ['p-ag-033', null, null],
+  'prize-nhi': ['p-ag-033', null],
   'prize-nhat': ['p-dt-017', null],
   'prize-dac-biet': ['p-ag-010', null],
 };
