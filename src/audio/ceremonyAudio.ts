@@ -249,14 +249,14 @@ class CeremonyAudioEngine {
     const noteCount = Math.floor(melodyUntil / step);
     for (let i = 0; i < noteCount; i++) {
       const t = now + i * step;
-      this.playXylo(phrase[i % phrase.length], t, 0.22, 0.42, true);
-      if (i % 2 === 0) this.playClack(t, 0.2, true);
+      this.playXylo(phrase[i % phrase.length], t, 0.24, 0.78, true);
+      if (i % 2 === 0) this.playClack(t, 0.42, true);
     }
 
     let rollAt = melodyUntil;
     let gap = 0.11;
     while (rollAt < durationSec - 0.04) {
-      this.playClack(now + rollAt, 0.34, true);
+      this.playClack(now + rollAt, 0.62, true);
       rollAt += gap;
       gap = Math.max(0.032, gap * 0.88);
     }
@@ -328,7 +328,7 @@ class CeremonyAudioEngine {
     if (!ctx) return;
 
     const now = ctx.currentTime;
-    this.playClack(now, progress > 0.75 ? 0.16 : 0.1, false);
+    this.playClack(now, progress > 0.75 ? 0.3 : 0.2, false);
   }
 
   public stopSpinCeremony() {
