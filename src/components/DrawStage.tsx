@@ -330,6 +330,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
           participantId: cw.participant.id,
           participantCode: cw.participant.code,
           participantName: cw.participant.name,
+          participantTitle: cw.participant.title,
           participantDepartment: cw.participant.department,
           wonAt: new Date().toISOString(),
           slotIndex: cw.slotIndex,
@@ -512,7 +513,12 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                   <div className="font-display-gold mt-3 text-2xl sm:text-4xl font-extrabold tracking-wide leading-tight">
                     {lastRevealedBatch[0].participantName}
                   </div>
-                  <p className="mt-2 text-sm sm:text-lg font-medium text-amber-100/90">
+                  {lastRevealedBatch[0].participantTitle && (
+                    <p className="mt-2 text-base sm:text-xl font-semibold text-amber-200">
+                      {lastRevealedBatch[0].participantTitle}
+                    </p>
+                  )}
+                  <p className="mt-1 text-sm sm:text-lg font-medium text-amber-100/90">
                     {lastRevealedBatch[0].participantDepartment}
                   </p>
                 </div>
@@ -538,6 +544,11 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                       <div className="mt-1.5 text-base sm:text-lg font-extrabold text-amber-100 leading-snug">
                         {w.participantName}
                       </div>
+                      {w.participantTitle && (
+                        <div className="mt-0.5 text-[11px] sm:text-xs font-semibold text-amber-200">
+                          {w.participantTitle}
+                        </div>
+                      )}
                       <div className="mt-0.5 text-[11px] text-slate-300/90 line-clamp-2">
                         {w.participantDepartment}
                       </div>
@@ -603,7 +614,7 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                             {item.name}
                           </span>
                           <span className="mt-0.5 max-w-full truncate px-3 text-[10px] sm:text-xs text-amber-100/75">
-                            {item.department}
+                            {item.title ? `${item.title} · ${item.department}` : item.department}
                           </span>
                         </div>
                       ))}
@@ -644,7 +655,9 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                           {currentItem.name}
                         </div>
                         <div className="mt-0.5 truncate text-[11px] text-slate-300/80">
-                          {currentItem.department}
+                          {currentItem.title
+                            ? `${currentItem.title} · ${currentItem.department}`
+                            : currentItem.department}
                         </div>
                       </div>
                     );
@@ -763,7 +776,8 @@ export const DrawStage: React.FC<DrawStageProps> = ({
                   </span>
                   <span className="truncate font-semibold text-white">{w.participantName}</span>
                   <span className="hidden md:inline truncate text-slate-400">
-                    ({w.participantDepartment})
+                    {w.participantTitle ? `${w.participantTitle} · ` : ''}
+                    {w.participantDepartment}
                   </span>
                 </div>
               ))}

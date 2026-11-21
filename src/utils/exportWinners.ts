@@ -7,6 +7,7 @@ const HEADERS = [
   'Phần quà',
   'Mã số',
   'Họ và tên',
+  'Chức vụ',
   'Đơn vị',
   'Thời gian trúng',
 ] as const;
@@ -18,6 +19,7 @@ function buildRows(winners: WinnerRecord[]): (string | number)[][] {
     w.giftName,
     w.participantCode,
     w.participantName,
+    w.participantTitle ?? '',
     w.participantDepartment,
     new Date(w.wonAt).toLocaleString('vi-VN'),
   ]);
@@ -66,6 +68,7 @@ export function exportWinnersExcel(winners: WinnerRecord[], prizes: Prize[]) {
     { wch: 28 },
     { wch: 12 },
     { wch: 24 },
+    { wch: 22 },
     { wch: 28 },
     { wch: 20 },
   ];
@@ -84,6 +87,7 @@ export function exportWinnersExcel(winners: WinnerRecord[], prizes: Prize[]) {
         w.giftName,
         w.participantCode,
         w.participantName,
+        w.participantTitle ?? '',
         w.participantDepartment,
         new Date(w.wonAt).toLocaleString('vi-VN'),
       ]),

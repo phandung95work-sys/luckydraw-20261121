@@ -3,6 +3,8 @@ export interface Participant {
   code: string;
   name: string;
   department: string;
+  /** Chức vụ, chủ yếu lãnh đạo khách mời. */
+  title?: string;
   eligible: boolean;
 }
 
@@ -33,6 +35,7 @@ export interface WinnerRecord {
   participantId: string;
   participantCode: string;
   participantName: string;
+  participantTitle?: string;
   participantDepartment: string;
   wonAt: string;
   slotIndex: number;

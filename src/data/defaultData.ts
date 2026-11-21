@@ -1,7 +1,7 @@
 import { AppState, Participant, Prize, RiggedAssignments } from '../types';
 import { deptPool, GUEST_POOL } from '../utils/slotRules';
 /** Danh sách 116 người ăn tối Gala (đã loại BLĐ + một số TT CNTT). */
-export const EVENT_PARTICIPANTS: Participant[] = [
+const EVENT_PARTICIPANT_ROWS: Participant[] = [
   { id: 'p-dt-001', code: 'DT-001', name: 'Nguyễn Xuân Trường', department: 'F5 Networks', eligible: true },
   { id: 'p-dt-002', code: 'DT-002', name: 'Đoàn Quang Huy', department: 'Công ty cổ phần công nghệ số Thiên Phú', eligible: true },
   { id: 'p-dt-003', code: 'DT-003', name: 'Nguyễn Tuấn Linh', department: 'Red Hat', eligible: true },
@@ -50,11 +50,11 @@ export const EVENT_PARTICIPANTS: Participant[] = [
   { id: 'p-dt-046', code: 'DT-046', name: 'Đinh Lê Lợi', department: 'HPE', eligible: true },
   { id: 'p-dt-047', code: 'DT-047', name: 'Nguyễn Quốc An', department: 'Dell VN', eligible: true },
   { id: 'p-dt-048', code: 'DT-048', name: 'Phí Thị Diên', department: 'Dell VN', eligible: true },
-  { id: 'p-dt-049', code: 'DT-049', name: 'Phó Đức Kiên', department: 'Phó chủ tịch Tập Đoàn CMC - Phó TGĐ CMC Telecom', eligible: true },
-  { id: 'p-dt-050', code: 'DT-050', name: 'Bùi Thị Thu', department: 'Phó Giám dốc kinh doanh CMC Telecom', eligible: true },
-  { id: 'p-dt-051', code: 'DT-051', name: 'Nguyễn Thanh Thủy', department: 'Giám đốc 3C', eligible: true },
-  { id: 'p-dt-052', code: 'DT-052', name: 'Lê Thành Trung', department: 'TGĐ ETC', eligible: true },
-  { id: 'p-dt-053', code: 'DT-053', name: 'Đặng Kim Dũng', department: 'Giám đốc ETC', eligible: true },
+  { id: 'p-dt-049', code: 'DT-049', name: 'Phó Đức Kiên', department: 'CMC Telecom', eligible: true },
+  { id: 'p-dt-050', code: 'DT-050', name: 'Bùi Thị Thu', department: 'CMC Telecom', eligible: true },
+  { id: 'p-dt-051', code: 'DT-051', name: 'Nguyễn Thanh Thủy', department: 'Công ty 3C +', eligible: true },
+  { id: 'p-dt-052', code: 'DT-052', name: 'Lê Thành Trung', department: 'Công ty ETC', eligible: true },
+  { id: 'p-dt-053', code: 'DT-053', name: 'Đặng Kim Dũng', department: 'Công ty ETC', eligible: true },
   { id: 'p-dt-054', code: 'DT-054', name: 'Phạm Minh Quang', department: 'Giám đốc Kinh doanh ETC', eligible: true },
   { id: 'p-dt-055', code: 'DT-055', name: 'Nguyễn Ngọc Khánh', department: 'AM - ETC', eligible: true },
   { id: 'p-dt-056', code: 'DT-056', name: 'Phạm Văn Đức', department: 'Savis', eligible: true },
@@ -120,6 +120,49 @@ export const EVENT_PARTICIPANTS: Participant[] = [
   { id: 'p-ag-051', code: 'AG-051', name: 'Hoàng Minh Tuấn', department: 'Trung tâm Quản lý Dữ liệu', eligible: true },
 ];
 
+/** Chức vụ lãnh đạo khách mời, theo danh sách gốc. */
+const GUEST_LEADER_TITLES: Record<string, string> = {
+  'Nguyễn Xuân Trường': 'Trưởng đại diện',
+  'Đoàn Quang Huy': 'Giám đốc',
+  'Nguyễn Tuấn Linh': 'Sale manager',
+  'Nguyễn Hải Sơn': 'Tổng Giám đốc',
+  'Nguyễn Văn Toán': 'Giám đốc kinh doanh',
+  'Nguyễn Xuân Linh': 'Giám đốc kinh doanh',
+  'Đinh Hoàng Điệp': 'Giám đốc kinh doanh',
+  'Nguyễn Vũ Tuấn Anh': 'Tổng Giám đốc',
+  'Hà Ngọc Linh': 'Tổng Giám đốc',
+  'Phùng Gia Tân': 'Sale manager',
+  'Nguyễn Gia Đức': 'Trưởng đại diện',
+  'Phạm Việt Giang': 'Chủ tịch',
+  'Trương Tuấn Thành': 'Giám đốc kinh doanh',
+  'Nguyễn Quốc Thắng': 'Giám đốc kinh doanh',
+  'Nguyễn Thành Nam': 'Giám đốc kinh doanh',
+  'Nguyễn Thế Dương': 'Giám đốc',
+  'Đoàn Xuân Vũ': 'Giám đốc kinh doanh',
+  'Nguyễn Như Dũng': 'Trưởng đại diện',
+  'Nguyễn Tiến Sỹ': 'Chủ tịch',
+  'Lê Thanh Hải': 'Phó TGĐ',
+  'Trần Mạnh Dinh': 'Giám đốc TTDV khối NH',
+  'Đào Hồng Giang': 'Giám đốc khối',
+  'Đinh Sỹ Hùng': 'Chủ tịch',
+  'Trần Ngọc Vinh': 'Giám đốc',
+  'Phạm Văn Lợi': 'Sale manager',
+  'Nguyễn Quang Hiển': 'Giám đốc dự án',
+  'Phạm Khắc An': 'Phụ trách dự án khối',
+  'Đinh Lê Lợi': 'Quản lý khách hàng',
+  'Nguyễn Quốc An': 'Phụ trách kinh doanh',
+  'Phó Đức Kiên': 'Phó Chủ tịch',
+  'Bùi Thị Thu': 'Phó Giám đốc',
+  'Nguyễn Thanh Thủy': 'Giám đốc',
+  'Lê Thành Trung': 'Phó TGĐ',
+  'Đặng Kim Dũng': 'Giám đốc',
+};
+
+export const EVENT_PARTICIPANTS: Participant[] = EVENT_PARTICIPANT_ROWS.map((person) => {
+  const title = GUEST_LEADER_TITLES[person.name];
+  return title ? { ...person, title } : person;
+});
+
 export const DEFAULT_PRIZES: Prize[] = [
   {
     id: 'prize-khuyen-khich',
@@ -171,7 +214,7 @@ export const DEFAULT_PRIZES: Prize[] = [
 
 /**
  * Cơ cấu chỉ định. Người được ghim không bị bốc ở các lượt ngẫu nhiên khác.
- * Giải Nhì: 3 vợt pickleball, quay ngẫu nhiên.
+ * Giải Nhì: 3 vợt. Suất đầu của Nguyễn Văn Tùng, Trung tâm CNTT. Hai suất sau ngẫu nhiên.
  * Giải Nhất: 2 lượt. Máy in HP 139fnw của Trương Tuấn Thành, rồi máy scan HP ngẫu nhiên.
  * Giải Đặc biệt: 2 lượt. Điện thoại đầu của Trần Thị Lệ Dung, điện thoại sau ngẫu nhiên.
  * Giải Ba: 4 đơn vị nội bộ, lượt cuối là khách mời ngoài cả 4 đơn vị đó.
@@ -184,7 +227,7 @@ export const DEFAULT_RIGGED_ASSIGNMENTS: RiggedAssignments = {
     deptPool('Trung tâm CNTT'),
     GUEST_POOL,
   ],
-  'prize-nhi': [null, null, null],
+  'prize-nhi': ['p-ag-033', null, null],
   'prize-nhat': ['p-dt-017', null],
   'prize-dac-biet': ['p-ag-010', null],
 };

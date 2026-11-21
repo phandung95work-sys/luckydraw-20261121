@@ -148,6 +148,7 @@ export const WinnersBoard: React.FC<WinnersBoardProps> = ({
                             </span>
                           </div>
                           <p className="mt-0.5 truncate text-[11px] sm:text-xs text-slate-400">
+                            {w.participantTitle ? `${w.participantTitle} · ` : ''}
                             {prize.slotGifts ? `${w.giftName} · ` : ''}
                             {w.participantDepartment}
                           </p>
