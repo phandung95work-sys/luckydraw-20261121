@@ -242,85 +242,94 @@ class CeremonyAudioEngine {
     if (!ctx) return;
 
     const now = ctx.currentTime;
-    // Giai điệu sổ xố: mộc cầm vui, nhịp đều, rồi lắc bóng dồn ở cuối.
-    const phrase = [659.25, 783.99, 1046.5, 783.99, 659.25, 880, 783.99, 659.25, 523.25, 659.25, 783.99, 1046.5, 880, 783.99, 659.25, 523.25];
-    const step = 0.17;
-    const melodyUntil = durationSec * 0.8;
-    const noteCount = Math.floor(melodyUntil / step);
-    for (let i = 0; i < noteCount; i++) {
-      const t = now + i * step;
-      this.playXylo(phrase[i % phrase.length], t, 0.24, 0.78, true);
-      if (i % 2 === 0) this.playClack(t, 0.42, true);
-    }
 
-    let rollAt = melodyUntil;
-    let gap = 0.11;
-    while (rollAt < durationSec - 0.04) {
-      this.playClack(now + rollAt, 0.62, true);
-      rollAt += gap;
-      gap = Math.max(0.032, gap * 0.88);
+    // 1. Opening ceremonial gong/chime shimmer
+    this.playHarpNote(523.25, now, 3.0, 0.12);
+    this.playHarpNote(783.99, now + 0.08, 3.0, 0.1);
+    this.playHarpNote(1046.5, now + 0.16, 3.2, 0.09);
+
+    // 2. Warm rising orchestral bed spanning exact durationSec
+    const bedFilter = ctx.createBiquadFilter();
+    bedFilter.type = 'lowpass';
+    bedFilter.frequency.setValueAtTime(340, now);
+    bedFilter.frequency.exponentialRampToValueAtTime(1450, now + durationSec * 0.92);
+
+    const bedGain = ctx.createGain();
+    bedGain.gain.setValueAtTime(0.0001, now);
+    bedGain.gain.linearRampToValueAtTime(0.095, now + 1.8);
+    bedGain.gain.linearRampToValueAtTime(0.14, now + durationSec * 0.88);
+    bedGain.gain.exponentialRampToValueAtTime(0.0001, now + durationSec + 0.2);
+
+    bedFilter.connect(bedGain);
+    this.connectWithReverb(bedGain, 0.72, true);
+
+    const droneFreqs = [130.81, 196.0, 261.63, 329.63]; // C3, G3, C4, E4
+    droneFreqs.forEach((f, idx) => {
+      const osc = ctx.createOscillator();
+      osc.type = idx === 0 ? 'triangle' : 'sine';
+      osc.frequency.setValueAtTime(f, now);
+      // Gentle majestic upward modulation in final 4s
+      osc.frequency.setValueAtTime(f, now + Math.max(0, durationSec - 4.5));
+      osc.frequency.linearRampToValueAtTime(f * 1.12246, now + durationSec); // subtle lift toward D major feel
+      osc.connect(bedFilter);
+      osc.start(now);
+      osc.stop(now + durationSec + 0.3);
+      this.spinNodes.push(osc);
+    });
+
+    // 3. Dignified orchestral chord swells & harp accents at key ceremony milestones
+    const chordMilestones = [
+      { at: 0.1, freqs: [130.81, 196.0, 246.94, 329.63], dur: 4.0 },
+      { at: durationSec * 0.27, freqs: [146.83, 220.0, 261.63, 349.23], dur: 4.0 },
+      { at: durationSec * 0.53, freqs: [164.81, 246.94, 293.66, 392.0], dur: 4.0 },
+      { at: durationSec * 0.78, freqs: [196.0, 246.94, 329.63, 440.0], dur: 3.6 },
+    ];
+
+    chordMilestones.forEach((m) => {
+      const id = window.setTimeout(() => {
+        if (!this.config.enabled) return;
+        this.playPadChord(m.freqs, m.dur, 0.075, 900);
+      }, m.at * 1000);
+      this.spinTimers.push(id);
+    });
+
+    // 4. Soft rhythmic timpani heartbeat pulse during middle build-up
+    const pulseCount = Math.floor(durationSec / 0.75);
+    for (let i = 1; i < pulseCount; i++) {
+      const tMs = i * 750;
+      const progress = i / pulseCount;
+      const id = window.setTimeout(() => {
+        if (!this.config.enabled) return;
+        this.playSoftTimpani(progress > 0.7 ? 0.11 : 0.065, progress > 0.7 ? 74 : 65);
+      }, tMs);
+      this.spinTimers.push(id);
     }
   }
 
-  /** Mộc cầm khô, to, kiểu nhạc quay số. */
-  private playXylo(freq: number, start: number, dur: number, gainVal: number, track: boolean) {
+  private playSoftTimpani(gainVal = 0.08, freq = 68) {
     const ctx = this.ensureContext();
-    if (!ctx || !this.config.enabled || !this.masterGain) return;
+    if (!ctx || !this.config.enabled) return;
+    const now = ctx.currentTime;
 
     const osc = ctx.createOscillator();
-    const bright = ctx.createOscillator();
-    const brightGain = ctx.createGain();
     const env = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq * 1.45, now);
+    osc.frequency.exponentialRampToValueAtTime(freq, now + 0.09);
 
-    osc.type = 'triangle';
-    bright.type = 'sine';
-    osc.frequency.setValueAtTime(freq, start);
-    bright.frequency.setValueAtTime(freq * 2, start);
-    brightGain.gain.setValueAtTime(0.42, start);
-
-    env.gain.setValueAtTime(0.0001, start);
-    env.gain.linearRampToValueAtTime(gainVal, start + 0.008);
-    env.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+    env.gain.setValueAtTime(0.0001, now);
+    env.gain.linearRampToValueAtTime(gainVal, now + 0.015);
+    env.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
 
     osc.connect(env);
-    bright.connect(brightGain);
-    brightGain.connect(env);
-    env.connect(this.masterGain);
+    this.connectWithReverb(env, 0.85, true);
 
-    osc.start(start);
-    bright.start(start);
-    osc.stop(start + dur + 0.02);
-    bright.stop(start + dur + 0.02);
-    if (track) this.spinNodes.push(osc, bright);
-  }
-
-  /** Tiếng bóng gỗ / lắc lồng quay số. */
-  private playClack(start: number, gainVal: number, track: boolean) {
-    const ctx = this.ensureContext();
-    if (!ctx || !this.config.enabled || !this.masterGain) return;
-
-    const osc = ctx.createOscillator();
-    const filter = ctx.createBiquadFilter();
-    const env = ctx.createGain();
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(1400, start);
-    osc.frequency.exponentialRampToValueAtTime(180, start + 0.045);
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(1600, start);
-    filter.Q.value = 6;
-    env.gain.setValueAtTime(gainVal, start);
-    env.gain.exponentialRampToValueAtTime(0.0001, start + 0.055);
-
-    osc.connect(filter);
-    filter.connect(env);
-    env.connect(this.masterGain);
-    osc.start(start);
-    osc.stop(start + 0.07);
-    if (track) this.spinNodes.push(osc);
+    osc.start(now);
+    osc.stop(now + 0.45);
   }
 
   /**
-   * Tiếng bóng gỗ khớp nhịp tên chạy trên vòng quay.
+   * Crystalline tick synced with slot transition; softens & deepens during final deceleration.
    */
   public triggerReelTick(progress: number) {
     if (!this.config.enabled || this.config.customSpinUrl) return;
@@ -328,7 +337,28 @@ class CeremonyAudioEngine {
     if (!ctx) return;
 
     const now = ctx.currentTime;
-    this.playClack(now, progress > 0.75 ? 0.3 : 0.2, false);
+    const osc = ctx.createOscillator();
+    const env = ctx.createGain();
+
+    // Scale pitch gracefully from bright crystal to warm bell near finish
+    const notes = [880, 987.77, 1046.5, 1174.66, 1318.51];
+    const note = progress > 0.75
+      ? notes[Math.floor(progress * 10) % notes.length] * 0.75
+      : notes[Math.floor(Math.random() * notes.length)];
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(note, now);
+
+    const vol = progress > 0.7 ? 0.055 : 0.032;
+    env.gain.setValueAtTime(0.0001, now);
+    env.gain.linearRampToValueAtTime(vol, now + 0.006);
+    env.gain.exponentialRampToValueAtTime(0.0001, now + (progress > 0.7 ? 0.24 : 0.09));
+
+    osc.connect(env);
+    this.connectWithReverb(env, 0.7, progress > 0.65);
+
+    osc.start(now);
+    osc.stop(now + 0.26);
   }
 
   public stopSpinCeremony() {
@@ -368,16 +398,61 @@ class CeremonyAudioEngine {
     if (!ctx) return;
 
     const now = ctx.currentTime;
-    const tune = [523.25, 659.25, 783.99, 1046.5, 1318.51, 1046.5, 1174.66, 1567.98];
-    tune.forEach((freq, idx) => {
-      this.playXylo(freq, now + idx * 0.1, 0.36, 0.5, false);
+
+    // 1. Majestic timpani foundation
+    this.playSoftTimpani(0.18, 65.41);
+    window.setTimeout(() => this.playSoftTimpani(0.14, 98.0), 180);
+
+    // 2. Warm brass-like ceremonial triad -> grand Cmaj9 fanfare resolution
+    this.playBrassAccent([261.63, 329.63, 392.0], now, 0.26, 0.09);
+    this.playBrassAccent([293.66, 392.0, 493.88], now + 0.22, 0.26, 0.095);
+    this.playBrassAccent([261.63, 329.63, 392.0, 493.88, 587.33], now + 0.48, 2.8, 0.12);
+
+    // 3. Ascending golden harp glissando
+    const gliss = [523.25, 659.25, 783.99, 987.77, 1046.5, 1318.51, 1567.98, 2093.0];
+    gliss.forEach((freq, idx) => {
+      this.playHarpNote(freq, now + 0.45 + idx * 0.075, 2.8, 0.085);
     });
-    this.playXylo(523.25, now + 0.86, 0.7, 0.28, false);
-    this.playXylo(659.25, now + 0.86, 0.7, 0.26, false);
-    this.playXylo(783.99, now + 0.86, 0.7, 0.26, false);
-    this.playXylo(1046.5, now + 0.86, 0.9, 0.34, false);
-    this.playClack(now, 0.28, false);
-    this.playClack(now + 0.86, 0.32, false);
+  }
+
+  private playBrassAccent(freqs: number[], start: number, dur: number, gainVal: number) {
+    const ctx = this.ensureContext();
+    if (!ctx) return;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(600, start);
+    filter.frequency.exponentialRampToValueAtTime(1700, start + 0.14);
+    filter.frequency.exponentialRampToValueAtTime(850, start + dur);
+
+    const env = ctx.createGain();
+    env.gain.setValueAtTime(0.0001, start);
+    env.gain.linearRampToValueAtTime(gainVal, start + 0.06);
+    env.gain.setValueAtTime(gainVal * 0.85, start + dur * 0.55);
+    env.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+
+    filter.connect(env);
+    this.connectWithReverb(env, 0.72, true);
+
+    freqs.forEach((f) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(f, start);
+      const sub = ctx.createOscillator();
+      sub.type = 'triangle';
+      sub.frequency.setValueAtTime(f, start);
+
+      const sawGain = ctx.createGain();
+      sawGain.gain.value = 0.28;
+      osc.connect(sawGain);
+      sawGain.connect(filter);
+      sub.connect(filter);
+
+      osc.start(start);
+      sub.start(start);
+      osc.stop(start + dur + 0.05);
+      sub.stop(start + dur + 0.05);
+    });
   }
 
   public unlock() {
