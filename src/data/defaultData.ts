@@ -158,8 +158,58 @@ const GUEST_LEADER_TITLES: Record<string, string> = {
   'Đặng Kim Dũng': 'Giám đốc',
 };
 
+/** Chức danh Agribank theo danh sách công đoàn T5/2026, gắn theo mã để khỏi trùng tên. */
+const AGRIBANK_TITLES: Record<string, string> = {
+  'AG-001': 'Phó Giám đốc',
+  'AG-002': 'Phó Giám đốc',
+  'AG-003': 'Phó Giám đốc',
+  'AG-004': 'Phó Giám đốc',
+  'AG-005': 'Trưởng phòng',
+  'AG-006': 'Trưởng phòng',
+  'AG-007': 'Trưởng phòng',
+  'AG-008': 'Trưởng phòng',
+  'AG-009': 'Trưởng phòng',
+  'AG-010': 'Trưởng phòng',
+  'AG-011': 'Trưởng phòng',
+  'AG-012': 'Trưởng phòng',
+  'AG-013': 'Trưởng phòng',
+  'AG-015': 'Phó trưởng phòng',
+  'AG-016': 'Phó trưởng phòng',
+  'AG-017': 'Phó trưởng phòng',
+  'AG-018': 'Phó trưởng phòng',
+  'AG-019': 'Phó trưởng phòng',
+  'AG-020': 'Phó trưởng phòng',
+  'AG-021': 'Phó trưởng phòng',
+  'AG-022': 'Phó trưởng phòng',
+  'AG-023': 'Phó trưởng phòng',
+  'AG-024': 'Phó trưởng phòng',
+  'AG-025': 'Phó trưởng phòng',
+  'AG-026': 'Trưởng phòng',
+  'AG-027': 'Phó trưởng phòng',
+  'AG-028': 'Phó trưởng phòng',
+  'AG-029': 'Phó trưởng phòng',
+  'AG-030': 'Phó trưởng phòng',
+  'AG-031': 'Phó trưởng phòng',
+  'AG-032': 'Phó trưởng phòng',
+  'AG-033': 'Nhân viên',
+  'AG-034': 'Nhân viên',
+  'AG-035': 'Nhân viên',
+  'AG-036': 'Trưởng Ban',
+  'AG-037': 'Trưởng nghiệp vụ',
+  'AG-038': 'Phó Trưởng nghiệp vụ',
+  'AG-039': 'Phó Trưởng nghiệp vụ',
+  'AG-040': 'Chuyên viên',
+  'AG-041': 'Trưởng Ban',
+  'AG-042': 'Phó Trưởng Ban',
+  'AG-043': 'Trưởng nghiệp vụ',
+  'AG-044': 'Phó Trưởng nghiệp vụ',
+  'AG-045': 'Phó Trưởng nghiệp vụ',
+};
+
 export const EVENT_PARTICIPANTS: Participant[] = EVENT_PARTICIPANT_ROWS.map((person) => {
-  const title = GUEST_LEADER_TITLES[person.name];
+  const title = person.code.startsWith('AG-')
+    ? AGRIBANK_TITLES[person.code]
+    : GUEST_LEADER_TITLES[person.name];
   return title ? { ...person, title } : person;
 });
 
